@@ -1,0 +1,55 @@
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\Generator PDF.exe.config
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\Generator PDF.exe
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\Generator PDF.pdb
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\MySql.Data.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\Google.Protobuf.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\MySql.Data.xml
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.csprojAssemblyReference.cache
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\App.g.cs
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF_MarkupCompile.cache
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF_MarkupCompile.lref
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.g.resources
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\Generator_PDF.Properties.Resources.resources
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.csproj.GenerateResource.cache
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.csproj.CoreCompileInputs.cache
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.csproj.CopyComplete
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.exe
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.pdb
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\MaterialDesignColors.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\MaterialDesignThemes.Wpf.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\MaterialDesignThemes.Wpf.pdb
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\App.baml
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\itextsharp.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\LogIn.g.cs
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\LogIn.baml
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\CommonServiceLocator.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\Prism.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\Prism.pdb
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\Prism.Wpf.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\Prism.Wpf.pdb
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Aero.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Metro.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\Xceed.Wpf.AvalonDock.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\Xceed.Wpf.Toolkit.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\de\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\es\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\fr\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\hu\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\it\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\pt-BR\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\ro\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\ru\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\System.Windows.Controls.Input.Toolkit.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\System.Windows.Controls.Layout.Toolkit.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\WPFToolkit.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\System.Windows.Controls.DataVisualization.Toolkit.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\Window1.g.cs
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\obj\Debug\Window1.baml
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\LiveCharts.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\LiveCharts.pdb
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\LiveCharts.Wpf.dll
+C:\Users\mati\Desktop\Genrator PDF\Generator PDF\Generator PDF\bin\Debug\LiveCharts.Wpf.pdb
