@@ -1004,11 +1004,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mati\\Desktop\\Genrator PDF\\Generator PDF\\Generator PDF\\Generator PDF.csproj",
+      "projectUniqueName": "C:\\Users\\mati\\Desktop\\GIT PDF\\Generate-PDF\\Generator PDF\\Generator PDF\\Generator PDF.csproj",
       "projectName": "Generator PDF",
-      "projectPath": "C:\\Users\\mati\\Desktop\\Genrator PDF\\Generator PDF\\Generator PDF\\Generator PDF.csproj",
+      "projectPath": "C:\\Users\\mati\\Desktop\\GIT PDF\\Generate-PDF\\Generator PDF\\Generator PDF\\Generator PDF.csproj",
       "packagesPath": "C:\\Users\\mati\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mati\\Desktop\\Genrator PDF\\Generator PDF\\Generator PDF\\obj\\",
+      "outputPath": "C:\\Users\\mati\\Desktop\\GIT PDF\\Generate-PDF\\Generator PDF\\Generator PDF\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [

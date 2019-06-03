@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Google.Protobuf, Version=3.5.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Google.Protobuf.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=8.0.15.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -59,12 +63,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ConnectionMySql.cs" />
-    <Compile Include="VM\AbstractViewClass.cs" />
-    <Compile Include="VM\LogInDataBase.cs" />
-    <Compile Include="Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
+    <Compile Include="MySqlClass\ConnectionMySql.cs" />
+    <Compile Include="NumberOfCarPark.xaml.cs">
+      <DependentUpon>NumberOfCarPark.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VM\BaseViewClass.cs" />
+    <Compile Include="VM\MVCarParksChoice.cs" />
+    <Compile Include="VM\GeneratePossiblyOperation.cs" />
+    <Compile Include="VM\IdParking.cs" />
+    <Compile Include="VM\MVGeneratePDF.cs" />
+    <Compile Include="VM\MVLogInDataBase.cs" />
+    <Compile Include="GeneratePDF.xaml.cs">
+      <DependentUpon>GeneratePDF.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VM\Operation.cs" />
     <Page Include="LogIn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -76,7 +88,11 @@
     <Compile Include="LogIn.xaml.cs">
       <DependentUpon>LogIn.xaml</DependentUpon>
     </Compile>
-    <Page Include="Window1.xaml">
+    <Page Include="GeneratePDF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NumberOfCarPark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

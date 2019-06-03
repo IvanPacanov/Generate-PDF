@@ -12,12 +12,11 @@ using System.Windows.Input;
 
 namespace Generator_PDF.VM
 {
-    public class LogInDataBase:AbstractViewClass
+    public class MVLogInDataBase:BaseViewClass
     {
         #region BlindingButton
         public ICommand ConnectionButtonCommand { get; private set; }
-        public ICommand CloseButtonCommand { get; private set; }
-
+        
         #endregion
 
         #region BlindingTextBlock
@@ -63,12 +62,13 @@ namespace Generator_PDF.VM
 
 
         public Action GetPassowrd { get; set; }
+        public Action CloseWindow { get; set; }
+
+        
 
 
-                     
 
-
-        public LogInDataBase()
+        public MVLogInDataBase()
         {
             ConnectionButtonCommand = new DelegateCommand(Connection);
             CloseButtonCommand = new DelegateCommand(CloseApp);
@@ -76,13 +76,12 @@ namespace Generator_PDF.VM
 
         private void Connection()
         {
-            //  GetPassowrd();
+              GetPassowrd();
             //  ToDo();
-            Window1 window1 = new Window1();
-            window1.Show();
-            //Form1 form = new Form1();
+            GeneratePDF window1 = new GeneratePDF();
+            CloseWindow();
             //string a = TextIp;
-            //form.Show();
+
         }
         private void ToDo()
         {
@@ -94,22 +93,15 @@ namespace Generator_PDF.VM
         {
             Chart charaa = new Chart();
             Series seria = new Series("Cos");
-            seria.Points.DataBindXY(new[] { "cos", "Co", "Działa" }, new[] { 1, 2, 3 });
+            seria.Points.DataBindXY(new[] { "cos", "Co", "Działa", "EEEEE" }, new[] { 1, 2, 3, -20 });
+            
             charaa.Series.Add(seria);
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+      
 
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged(string propName)
-        {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        }
+       
     }
 
 

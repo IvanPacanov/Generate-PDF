@@ -11,17 +11,21 @@ namespace Generator_PDF
     /// </summary>
     public partial class LogIn : Window
     {
-        LogInDataBase logInDataBase;
+        MVLogInDataBase logInDataBase;
         public LogIn()
         {
             InitializeComponent();
-            logInDataBase= new LogInDataBase();
+            logInDataBase= new MVLogInDataBase();
             this.DataContext = logInDataBase;
             if(logInDataBase.GetPassowrd == null)
             {
                 logInDataBase.GetPassowrd = new Action(SendPasswordToClass);
             }
-         
+            if (logInDataBase.CloseWindow == null)
+            {
+                logInDataBase.CloseWindow = new Action(this.Close);
+            }
+
         }
         public void SendPasswordToClass()
         {
