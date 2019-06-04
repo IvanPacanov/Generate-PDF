@@ -20,6 +20,9 @@ namespace Generator_PDF.VM
         #endregion
 
         #region BlindingTextBlock
+
+        public ConnectionMySql connectionMy { get; set; }
+        public Action SetConnection { get; set; }
         private string textIp;
         public string TextIp
         {
@@ -33,13 +36,13 @@ namespace Generator_PDF.VM
         }
         public string Password;
 
-        private string texTextLogt;
+        private string textLogt;
         public string TextLog
         {
-            get { return this.texTextLogt; }
+            get { return this.textLogt; }
             set
             {
-                this.texTextLogt = value;
+                this.textLogt = value;
                 this.NotifyPropertyChanged("TextLog");
 
             }
@@ -61,7 +64,7 @@ namespace Generator_PDF.VM
 
 
 
-        public Action GetPassowrd { get; set; }
+        public Func<string> GetPassowrd { get; set; }
         public Action CloseWindow { get; set; }
 
         
@@ -76,11 +79,13 @@ namespace Generator_PDF.VM
 
         private void Connection()
         {
-              GetPassowrd();
-            //  ToDo();
-            GeneratePDF window1 = new GeneratePDF();
-            CloseWindow();
-            //string a = TextIp;
+             
+            connectionMy = new ConnectionMySql(textIp, textDataBase, textLogt, GetPassowrd());
+            connectionMy.StartConnect();
+            SetConnection();
+
+
+
 
         }
         private void ToDo()

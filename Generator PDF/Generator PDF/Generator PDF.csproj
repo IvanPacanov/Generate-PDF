@@ -64,10 +64,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="MySqlClass\ConnectionMySql.cs" />
+    <Compile Include="MySqlClass\ConnectionMySqlArgs.cs" />
     <Compile Include="NumberOfCarPark.xaml.cs">
       <DependentUpon>NumberOfCarPark.xaml</DependentUpon>
     </Compile>
     <Compile Include="VM\BaseViewClass.cs" />
+    <Compile Include="VM\CarParksArgs.cs" />
     <Compile Include="VM\MVCarParksChoice.cs" />
     <Compile Include="VM\GeneratePossiblyOperation.cs" />
     <Compile Include="VM\IdParking.cs" />

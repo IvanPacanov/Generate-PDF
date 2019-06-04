@@ -123,9 +123,9 @@ namespace Generator_PDF
             {
                 mVGeneratePDF.HideWindow = new Action(this.Hide);
             }
-            if (mVGeneratePDF.ShowWindow == null)
+            if (MVGeneratePDF.ShowWindow == null)
             {
-                mVGeneratePDF.ShowWindow = new Action(this.Show);
+                MVGeneratePDF.ShowWindow = new Action(this.Show);
             }
 
             mVGeneratePDF.GetIdParking();

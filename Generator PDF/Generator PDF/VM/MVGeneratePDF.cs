@@ -7,20 +7,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Generator_PDF.MySqlClass;
 using Prism.Commands;
 
 namespace Generator_PDF.VM
 {
     class MVGeneratePDF : BaseViewClass
     {
+      static  ConnectionMySql connectionSql;
+
         NumberOfCarPark numberOfCarPark;
         public Func<Operation> SelectedOperationListBox { get; set;}
         public Action HideWindow { get; set; }
 
-        public Action ShowWindow { get; set; }
+        public static Action ShowWindow { get; set; }
 
         public Func<Operation> RemoveOperationListBox { get; set; }
         public ObservableCollection<Operation> operationsListBox { get;  set; }
+
+        public static ObservableCollection<IdParking> CarParks { get; set; }
 
         public ObservableCollection<Operation> possiblyOperationsListBox { get; set; }
 
@@ -49,6 +54,11 @@ namespace Generator_PDF.VM
             }
         }
 
+        public static void OnAddCurrentCarParks(ConnectionMySql connectionMySql, ConnectionMySqlArgs carParksArgs)
+        {
+            connectionSql = connectionMySql;
+        }
+
 
 
 
@@ -68,12 +78,18 @@ namespace Generator_PDF.VM
             AddOperationButtonCommand = new DelegateCommand(AddOperation);
             RemoveButtonCommand = new DelegateCommand(RemoveOperation);
             GeneratePdfButtonCommand = new DelegateCommand(PdfGenerate);
+                                                  
+        }
+        private void PdfGenerate()
+        {
+            throw new NotImplementedException();
+        }
 
-
-
-
-
-
+        public static void OnAddCurrentDevice(ObservableCollection<IdParking> CarParkss, CarParksArgs carParksArgs)
+        {
+            CarParks = CarParkss;
+            ShowWindow();
+            
         }
         public void GetIdParking()
         {
@@ -82,10 +98,7 @@ namespace Generator_PDF.VM
          
         }
 
-        private void PdfGenerate()
-        {
-            throw new NotImplementedException();
-        }
+   
 
         private void RemoveOperation()
         {

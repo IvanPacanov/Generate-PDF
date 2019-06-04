@@ -31,10 +31,12 @@ namespace Generator_PDF.VM
 
             }
         }
-
+        public Action SetCarParks { get; set; }
+        public ICommand ContinueParkingButtonCommand { get; set; }
         public ICommand AddParkingButtonCommand { get; set; }
         public MVCarParksChoice()
         {
+            ContinueParkingButtonCommand = new DelegateCommand(ButtonCarPark);
             CloseButtonCommand = new DelegateCommand(CloseApp);
             AddParkingButtonCommand = new DelegateCommand(AddParking);
             carParkingListBox = new ObservableCollection<IdParking>();
@@ -45,6 +47,10 @@ namespace Generator_PDF.VM
         {
             if(textIdParking!=null)
             carParkingListBox.Add(new IdParking { idParking = int.Parse(textIdParking) });
+        }
+        private void ButtonCarPark()
+        {
+            SetCarParks();
         }
     }
 }

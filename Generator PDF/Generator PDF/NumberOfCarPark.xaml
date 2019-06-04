@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Generator_PDF"
         mc:Ignorable="d"
        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="CarPark" Height="400" Width="400" WindowStyle="None"
+        Title="CarPark" Height="450" Width="400" WindowStyle="None"
        Background="#FF2D2D30"   ResizeMode="NoResize" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="WindowMouseLeftButtonDown">
     <x:Code>
         private void WindowMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -18,7 +18,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="47*"/>
             <RowDefinition Height="74*"/>
-            <RowDefinition Height="279*"/>
+            <RowDefinition Height="250*"/>
+            <RowDefinition Height="80*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin="0,0,0,0.2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -45,7 +46,7 @@
                 </Button>
             </Grid>
         </Grid>
-        <Grid Grid.Row="2" Grid.Column="0">
+        <Grid Grid.Row="2" Grid.Column="0" >
 
             <ListBox
                 x:Name="List" Foreground="#FFF1F1F1" Background="#FF333337" Height="240" Width="250"
@@ -63,6 +64,13 @@
             </ListBox>
 
         </Grid>
-
+        <Grid Grid.Row="3">
+            <Button Width="120" Height="55" 
+                    VerticalAlignment="Center" Background="Transparent" 
+                    BorderBrush="Transparent" Content="Continue" 
+                    FontSize="15" 
+                    Command="{Binding ContinueParkingButtonCommand}" Foreground="#FFF1F1F1" >
+            </Button>
+    </Grid>
     </Grid>
 </Window>

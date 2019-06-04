@@ -8,13 +8,14 @@ using System.Windows.Forms;
 
 namespace Generator_PDF
 {
-    class ConnectionMySql
+  public class ConnectionMySql
     {
         #region fields
 
         private MySqlConnection mySqlConnection = null;
 
         private MySqlDataReader mySqlDataReader = null;
+        private MySqlCommand mySqlCommand = null;
 
         private string server;
         public string Server { get => server; set => server = value; }
@@ -51,52 +52,28 @@ namespace Generator_PDF
             }
 
         }
-        public void SendQuestion(string nameColumn, string nameTable)
+        public void SendQuestion(int IdParking)
         {
-
-            string cmdText = $"SELECT {nameColumn} FROM {nameTable}";
+            string cmdText = $"SELECT COUNT(Address) FROM History WHERE Address IN (SELECT detectorID FROM Czujniki WHERE parkingID = {IdParking})";
             mySqlConnection.Open();
-            MySqlCommand mySqlCommand = new MySqlCommand(cmdText);
+            mySqlCommand = new MySqlCommand(cmdText);
             mySqlDataReader = mySqlCommand.ExecuteReader();
+           
         }
 
-
-
-    }
-}
-
-
-
-
-/*
-
-    try
-    {
-
-
-
-
-com.Open();
-        String cmdText = "SELECT * FROM Algorytm1";
-
-reader = cmd.ExecuteReader();
-    //    while (reader.Read())
+        public int ReadSqlMessage()
         {
-            //                   MessageBox.Show(reader.GetString(5));
+            mySqlDataReader = mySqlCommand.ExecuteReader();
+            while(mySqlDataReader.Read())
+            {
+               return int.Parse(mySqlDataReader.GetString(0));
+            }
+            return 0;
         }
-        MessageBox.Show("Podłaczony");
-    }
-    catch (MySqlException error)
-    {
-        MessageBox.Show(error.ToString());
-    }
-    finally
-    {
-        if (com != null)
-        {
-            com.Close();
-        }
+
     }
 }
-}
-*/
+
+
+
+
