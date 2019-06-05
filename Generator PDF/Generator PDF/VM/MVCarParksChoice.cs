@@ -40,7 +40,7 @@ namespace Generator_PDF.VM
             CloseButtonCommand = new DelegateCommand(CloseApp);
             AddParkingButtonCommand = new DelegateCommand(AddParking);
             carParkingListBox = new ObservableCollection<IdParking>();
-            carParkingListBox.Add(new IdParking {  idParking = 50 });
+          
         }
 
         private void AddParking()

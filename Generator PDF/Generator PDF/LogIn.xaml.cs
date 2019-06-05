@@ -16,7 +16,8 @@ namespace Generator_PDF
         public LogIn()
         {
             InitializeComponent();
-            logInDataBase= new MVLogInDataBase();
+       
+            logInDataBase = new MVLogInDataBase();
             this.DataContext = logInDataBase;
             if(logInDataBase.GetPassowrd == null)
             {

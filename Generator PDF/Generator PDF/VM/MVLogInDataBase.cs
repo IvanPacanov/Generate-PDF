@@ -80,14 +80,14 @@ namespace Generator_PDF.VM
         private void Connection()
         {
              
-            connectionMy = new ConnectionMySql(textIp, textDataBase, textLogt, GetPassowrd());
-            connectionMy.StartConnect();
+            connectionMy = new ConnectionMySql();
+            connectionMy.Server = textIp;
+            connectionMy.Database = textDataBase;
+            connectionMy.User = textLogt;
+            connectionMy.Password = GetPassowrd();
             SetConnection();
 
-
-
-
-        }
+                                         }
         private void ToDo()
         {
            

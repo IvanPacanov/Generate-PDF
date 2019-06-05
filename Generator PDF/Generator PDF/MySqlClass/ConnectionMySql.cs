@@ -8,14 +8,26 @@ using System.Windows.Forms;
 
 namespace Generator_PDF
 {
-  public class ConnectionMySql
+    public class ConnectionMySql
     {
+
+        private static ConnectionMySql connectionMySql = null;
+        public static ConnectionMySql Instance_connectionMySql
+        {
+            get
+            {
+                if (connectionMySql == null)
+                {
+                    connectionMySql = new ConnectionMySql();
+                }
+                return connectionMySql;
+            }
+        }
+
+
         #region fields
 
-        private MySqlConnection mySqlConnection = null;
-
-        private MySqlDataReader mySqlDataReader = null;
-        private MySqlCommand mySqlCommand = null;
+     
 
         private string server;
         public string Server { get => server; set => server = value; }
@@ -31,49 +43,49 @@ namespace Generator_PDF
 
         #endregion
 
-        public ConnectionMySql(string server, string database, string user, string password)
+        public ConnectionMySql()
         {
-            Server = server;
-            Database = database;
-            User = user;
-            Password = password;
-        }
-        public void StartConnect()
-        {
-            String connectionString = $@"server={Server};database={Database};userid={User};password={Password}";
-            try
-            {
-                mySqlConnection = new MySqlConnection(connectionString);
-
-            }
-            catch (MySqlException en)
-            {
-                MessageBox.Show(en.ToString());
-            }
 
         }
-        public void SendQuestion(int IdParking)
-        {
-            string cmdText = $"SELECT COUNT(Address) FROM History WHERE Address IN (SELECT detectorID FROM Czujniki WHERE parkingID = {IdParking})";
-            mySqlConnection.Open();
-            mySqlCommand = new MySqlCommand(cmdText);
-            mySqlDataReader = mySqlCommand.ExecuteReader();
-           
-        }
 
-        public int ReadSqlMessage()
-        {
-            mySqlDataReader = mySqlCommand.ExecuteReader();
-            while(mySqlDataReader.Read())
-            {
-               return int.Parse(mySqlDataReader.GetString(0));
-            }
-            return 0;
-        }
+        //public ConnectionMySql(string server, string database, string user, string password)
+        //{
+        //    Server = server;
+        //    Database = database;
+        //    User = user;
+        //    Password = password;
+        //}
 
+
+
+        public async Task<int> numberVehicle(int parkingID)
+        {
+            int result = 0;
+            MySqlConnectionStringBuilder conn_string = new MySqlConnectionStringBuilder();
+            conn_string.Server = $"{server}";
+            conn_string.Port = 3306;
+            conn_string.Database = $"{database}";
+            conn_string.UserID= $"{user}";
+            conn_string.Password = $"{password}";
+           // String connectionString = $@"server={Server};database={Database};userid={User};password={Password}";
+            MySqlConnection mySqlConnection = new MySqlConnection(conn_string.ToString());
+
+                mySqlConnection.Open();
+                string cmdText = $"SELECT COUNT(Address) FROM History WHERE Address IN (SELECT detectorID FROM Czujniki WHERE parkingID = {parkingID})";
+                MySqlCommand mySqlCommand = new MySqlCommand(cmdText, mySqlConnection);
+                MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+                while (mySqlDataReader.Read())
+                {
+                    result= int.Parse(mySqlDataReader.GetString(0));
+                    await Task.Delay(1);
+                }
+                mySqlConnection.Close();
+                return result;
+            
+        }
     }
 }
-
+        
 
 
 
