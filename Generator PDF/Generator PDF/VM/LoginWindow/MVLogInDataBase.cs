@@ -34,15 +34,16 @@ namespace Generator_PDF.VM
 
             }
         }
-        public string Password;
+        private string password;
+        public string Password { get { return password; } set { password = value; }}
 
-        private string textLogt;
+        private string textLog;
         public string TextLog
         {
-            get { return this.textLogt; }
+            get { return this.textLog; }
             set
             {
-                this.textLogt = value;
+                this.textLog = value;
                 this.NotifyPropertyChanged("TextLog");
 
             }
@@ -65,52 +66,37 @@ namespace Generator_PDF.VM
 
 
         public Func<string> GetPassowrd { get; set; }
-        public Action CloseWindow { get; set; }
-
-        
+        public Action CloseWindow { get; set; } 
 
 
 
         public MVLogInDataBase()
         {
+            textIp = "cloud.jumarpol.pl";
+            textLog = "mateusz";
+            password = "mateusz_ksk";
+            textDataBase = "parkingiBackup";
             ConnectionButtonCommand = new DelegateCommand(Connection);
             CloseButtonCommand = new DelegateCommand(CloseApp);
         }
 
         private void Connection()
         {
-             
-            connectionMy = new ConnectionMySql();
+            connectionMy = ConnectionMySql.CreateOrGetConnectionClass();
             connectionMy.Server = textIp;
             connectionMy.Database = textDataBase;
-            connectionMy.User = textLogt;
+            connectionMy.User = textLog;
             connectionMy.Password = GetPassowrd();
-            SetConnection();
-
-                                         }
-        private void ToDo()
-        {
-           
-
-        }
-
-        static void generate()
-        {
-            Chart charaa = new Chart();
-            Series seria = new Series("Cos");
-            seria.Points.DataBindXY(new[] { "cos", "Co", "Działa", "EEEEE" }, new[] { 1, 2, 3, -20 });
-            
-            charaa.Series.Add(seria);
-
-        }
-
-      
-
-       
+            try
+            {
+                connectionMy.TestConnect();
+                SetConnection();
+            }
+            catch
+            {
+                MessageBox.Show("Brak połaczenia");
+            }          
+        }      
     }
-
-
-
-
 }
 

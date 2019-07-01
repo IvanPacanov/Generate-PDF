@@ -13,12 +13,15 @@ namespace Generator_PDF
     public partial class LogIn : Window
     {
         MVLogInDataBase logInDataBase;
+        
         public LogIn()
         {
             InitializeComponent();
        
             logInDataBase = new MVLogInDataBase();
             this.DataContext = logInDataBase;
+
+
             if(logInDataBase.GetPassowrd == null)
             {
                 logInDataBase.GetPassowrd = new Func<string>(SendPasswordToClass);
@@ -38,15 +41,20 @@ namespace Generator_PDF
         public void SendToMvGenerateConnection()
         {
             GeneratePDF window1 = new GeneratePDF();
+            
             OnAddCurrentCarParks(logInDataBase.connectionMy);
+            window1.GetIdParking();
         }
         public string SendPasswordToClass()
         {
-          return Password.Password;
-        }
-         public delegate void CurrentConnection(ConnectionMySql connectionMySql, ConnectionMySqlArgs carParksArgs);
-        public event CurrentConnection AddCurrentConnection;
+            // return Password.Password;
+            return "mateusz_ksk";
 
+        }
+
+
+        public delegate void CurrentConnection(ConnectionMySql connectionMySql, ConnectionMySqlArgs carParksArgs);
+        public event CurrentConnection AddCurrentConnection;
         protected virtual void OnAddCurrentCarParks(ConnectionMySql ConnectionMySql)
         {
             if (AddCurrentConnection != null)

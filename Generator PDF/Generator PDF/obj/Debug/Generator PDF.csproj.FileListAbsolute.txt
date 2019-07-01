@@ -65,12 +65,10 @@ C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\Prism.pdb
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\Prism.Wpf.pdb
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.csprojAssemblyReference.cache
-C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\LogIn.g.cs
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\App.g.cs
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF_MarkupCompile.cache
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF_MarkupCompile.lref
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\App.baml
-C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\LogIn.baml
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.g.resources
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator_PDF.Properties.Resources.resources
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.csproj.GenerateResource.cache
@@ -80,8 +78,6 @@ C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.pdb
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\GeneratePDF.g.cs
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\GeneratePDF.baml
-C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\NumberOfCarPark.g.cs
-C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\NumberOfCarPark.baml
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\CommonServiceLocator.dll
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Aero.dll
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Metro.dll
@@ -109,3 +105,7 @@ C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\System.Windows.Controls.Layout.Toolkit.dll
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\WPFToolkit.dll
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\System.Windows.Controls.DataVisualization.Toolkit.dll
+C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\LogIn.g.cs
+C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\LogIn.baml
+C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\NumberOfCarPark.g.cs
+C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\NumberOfCarPark.baml

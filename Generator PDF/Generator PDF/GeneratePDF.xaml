@@ -61,12 +61,13 @@
             <ListBox Foreground="#FFF1F1F1" Background="#FF333337" Height="auto" Width="250"
                          
                           ItemsSource="{Binding possiblyOperationsListBox}"
-                                    SelectionChanged="lstBox_SelectionChanget"             >
+                                    SelectionChanged="lstBox_SelectionChanget"    
+                     >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <TextBlock Text="{Binding operation}" Margin="2" FontWeight="Bold" Foreground="White"/>
-                        </StackPanel>
+                     
+                            <TextBlock Text="{Binding operation}" Margin="2" FontWeight="Bold" Foreground="White"  TextWrapping="WrapWithOverflow"/>
+                       
                     </DataTemplate>
                 </ListBox.ItemTemplate>
 
@@ -82,9 +83,9 @@
                                                 >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <TextBlock Text="{Binding operation}" Margin="2" FontWeight="Bold" Foreground="White"/>
-                        </StackPanel>
+                       <!-- <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"> -->
+                            <TextBlock Text="{Binding operation}" Margin="2" FontWeight="Bold" Foreground="White"  TextWrapping="Wrap"/>
+                        <!--</StackPanel> -->
                     </DataTemplate>
                 </ListBox.ItemTemplate>
 

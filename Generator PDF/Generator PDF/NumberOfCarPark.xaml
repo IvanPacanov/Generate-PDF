@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Generator_PDF"
         mc:Ignorable="d"
        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="CarPark" Height="450" Width="400" WindowStyle="None"
+        Title="CarPark" Height="400" Width="710" WindowStyle="None"
        Background="#FF2D2D30"   ResizeMode="NoResize" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="WindowMouseLeftButtonDown">
     <x:Code>
         private void WindowMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -14,63 +14,99 @@
             DragMove();
         }
     </x:Code>
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition Height="47*"/>
-            <RowDefinition Height="74*"/>
-            <RowDefinition Height="250*"/>
-            <RowDefinition Height="80*"/>
+            <RowDefinition/>
+            <RowDefinition Height="320.8"/>
+            <RowDefinition Height="23.2"/>
+
+
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="0,0,0,0.2">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280*"/>
+            <ColumnDefinition Width="280*"/>
+            <ColumnDefinition Width="150*"/>
+        </Grid.ColumnDefinitions>
+        
+
+
+        <Grid Grid.Row="0" Grid.Column="3">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
                 <Button Width="49" Height="40" Background="Transparent" BorderBrush="Transparent"  VerticalAlignment="Top" Command="{Binding CloseButtonCommand}" Margin="0,0,0,-5.6">
                     <materialDesign:PackIcon Kind="Power" Foreground="#FFCCCCCD"/>
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="119*"/>
-                <ColumnDefinition Width="81*"/>
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
-                <TextBox materialDesign:HintAssist.Hint="Id Parking" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10 5 0 5" FontFamily="High Tower Text" Text="{Binding TextIdParking}" FontSize="18" Foreground="#FFF1F1F1" CaretBrush="#FF7AC1FF"  />
+        <Grid Grid.Row="1" >
 
-            </Grid>
-            <Grid Grid.Column="1">
-                <Button Width="120" Height="55" 
-                    VerticalAlignment="Center" Background="Transparent" 
-                    BorderBrush="Transparent" Content="Add" 
-                    FontSize="15" 
-                    Command="{Binding AddParkingButtonCommand}" Foreground="#FFF1F1F1" >
-                </Button>
-            </Grid>
-        </Grid>
-        <Grid Grid.Row="2" Grid.Column="0" >
 
-            <ListBox
-                x:Name="List" Foreground="#FFF1F1F1" Background="#FF333337" Height="240" Width="250"
+            <ListBox Foreground="#FFF1F1F1" Background="#FF333337" Height="auto" Width="250"
                          
-                          ItemsSource="{Binding carParkingListBox}"
-                    
+                          ItemsSource="{Binding possiblyParkingListBox}"
+                                    SelectionChanged="lstBox_SelectionChanget"             >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                           <TextBlock Text="{Binding name}" Margin="2" FontWeight="Bold" Foreground="White" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
+
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+
+            <ListBox x:Name="List" Foreground="#FFF1F1F1" Background="#FF333337" Height="auto" Width="250"
+                         
+                          ItemsSource="{Binding carParksListBox}"
+                      SelectionChanged="lstBox_SelectionChangetRemove"     
                                                 >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <TextBlock Text="{Binding idParking}" Margin="2" FontWeight="Bold" Foreground="White"/>
+                            <TextBlock Text="{Binding name}" Margin="2" FontWeight="Bold" Foreground="White"  TextWrapping="Wrap"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+
             </ListBox>
 
         </Grid>
-        <Grid Grid.Row="3">
-            <Button Width="120" Height="55" 
+        <Grid Grid.Column="2" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="54*"/>
+                <RowDefinition Height="54*"/>
+                <RowDefinition Height="54*"/>
+                <RowDefinition Height="137*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Button Width="auto" Height="54" 
+                    VerticalAlignment="Center" Background="Transparent" 
+                    BorderBrush="Transparent" Content="Add" 
+                    FontSize="15" 
+                    Command="{Binding AddCarParkButtonCommand}" Foreground="#FFF1F1F1" >
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Button Width="auto" Height="54" 
+                    VerticalAlignment="Center" Background="Transparent" 
+                    BorderBrush="Transparent" Content="Remove" 
+                    FontSize="15" 
+                    Command="{Binding RemoveCarParkButtonCommand}" Foreground="#FFF1F1F1" >
+                </Button>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Button Width="auto" Height="54" 
                     VerticalAlignment="Center" Background="Transparent" 
                     BorderBrush="Transparent" Content="Continue" 
                     FontSize="15" 
-                    Command="{Binding ContinueParkingButtonCommand}" Foreground="#FFF1F1F1" >
-            </Button>
+                    Command="{Binding ContinuePdfButtonCommand}" Foreground="#FFF1F1F1" >
+                </Button>
+            </Grid>
+
+
+        </Grid>
     </Grid>
-    </Grid>
+
 </Window>
