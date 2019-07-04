@@ -29,20 +29,20 @@ namespace Generator_PDF.VM
     {
         public static Dictionary<int, List<List<IdParking>>> parkings;
 
-        public static Dictionary<int, List<PdfPTable>> PDfTableDictionary;
+        public static Dictionary<object, List<PdfPTable>> PDfTableDictionary;
 
         private static ConnectionMySql connectionSql;
 
         private NumberOfCarPark numberOfCarPark;
 
-        public static List<System.Drawing.Image> images;
+        public static Dictionary<object, System.Drawing.Image> images;
 
         public Func<Operation> SelectedOperationListBox { get; set; }
         public Func<Operation> RemoveOperationListBox { get; set; }
         public Action HideWindow { get; set; }
         public static Action ShowWindow { get; set; }
 
-        static List<IdParking> idParkings;
+       public static List<IdParking> idParkings;
         public ObservableCollection<Operation> operationsListBox { get; set; }
         public ObservableCollection<Operation> possiblyOperationsListBox { get; set; }
         public static Nullable<DateTime> availableFrom;
@@ -92,7 +92,7 @@ namespace Generator_PDF.VM
 
             counteOfChartr = 0;
             idParkings = new List<IdParking>();
-            PDfTableDictionary = new Dictionary<int, List<PdfPTable>>();
+            PDfTableDictionary = new Dictionary<object, List<PdfPTable>>();
 
             possiblyOperationsListBox = GeneratePossiblyOperation.CreatePossiblyOperation();
             operationsListBox = new ObservableCollection<Operation>();
@@ -107,9 +107,9 @@ namespace Generator_PDF.VM
         private void PdfGenerate()
         {
             threadsList = new List<Thread>();
-            images = new List<System.Drawing.Image>();
+            images = new Dictionary<object, System.Drawing.Image>();
             parkings = new Dictionary<int, List<List<IdParking>>>();
-            PDfTableDictionary = new Dictionary<int, List<PdfPTable>>();
+            PDfTableDictionary = new Dictionary<object, List<PdfPTable>>();
             try
             {
                 connectionSql.ToTime = availableTo.ConvertToUnixTimestamp();
@@ -123,6 +123,7 @@ namespace Generator_PDF.VM
 
 
             Thread thread = new Thread(WaitForAllChart);
+            thread.SetApartmentState(ApartmentState.STA);
             thread.IsBackground = true;
             thread.Start();
 
@@ -225,9 +226,9 @@ namespace Generator_PDF.VM
 
         }
 
-        public static void OnAddCurrentImage(System.Drawing.Image image, ImageArgs imageArgs)
+        public static void OnAddCurrentImage(System.Drawing.Image image, AbstractChart chart, ImageArgs imageArgs)
         {
-            images.Add(image);
+            images.Add(chart,image);
         }
 
         public static void OnAddCurrentDevice(ObservableCollection<IdParking> CarParkss, CarParksArgs carParksArgs)
@@ -269,7 +270,7 @@ namespace Generator_PDF.VM
                 AboirtThread();
             }
           
-            AbstractChart.GeneratePDF(images, PDfTableDictionary);
+            CreatePDF.GeneratePDF(images, PDfTableDictionary);
         }
 
 

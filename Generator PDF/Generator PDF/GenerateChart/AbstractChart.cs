@@ -23,7 +23,7 @@ namespace Generator_PDF.GenerateChart
     {
         public CartesianChart chart;
 
-        //    public SeriesCollection seriesCollection;
+
         System.Drawing.Bitmap imageChart = null;
 
         public abstract SeriesCollection GeneerateSeries();
@@ -32,55 +32,76 @@ namespace Generator_PDF.GenerateChart
         {
             return new Axis()
             {
-                Separator = new Separator() { Step = 1, IsEnabled = false },
+                ShowLabels = false,
                 Foreground = System.Windows.Media.Brushes.IndianRed,
                 FontSize = 20
             };
         }
 
 
-        public virtual void GeneerateChart(string AxisYTitle)
+        public virtual void GeneerateChart()
         {
+            SetChartParameters();
             chart.AxisX.Add(SetAxisX());
-            //   chart.AxisX.Add(SetAxisX());           
-            SetChartParameters(AxisYTitle);
+
+
             TakeTheChart();
         }
 
 
 
-        public void SetChartParameters(string AxisYTitle)
+        public void SetChartParameters()
         {
             chart.DisableAnimations = true;
 
-            chart.Width = 800;
-            chart.Height = 350;
+            chart.Width = 600;
+            chart.Height = 300;
             chart.Series = GeneerateSeries();
+          
 
-
-
-            chart.AxisY.Add(new Axis
+            if (this is LineChart)
             {
-                Foreground = System.Windows.Media.Brushes.DodgerBlue,
-                FontSize = 20,
+                chart.AxisY.Add(new Axis
+                {
 
-                Title = AxisYTitle
-            });
+                    LabelFormatter = value => string.Format("{0:0.00}%", value),
+                    Foreground = Brushes.Black,
+                    FontSize = 15,
+                    Separator = new Separator() { Stroke = Brushes.Black },
+                    Title = "% Pojazdów"
 
-            chart.LegendLocation = LegendLocation.Right;
+                });
+            }
+            else
+            {
 
+                chart.AxisY.Add(new Axis
+                {
+
+
+                    Foreground = Brushes.Black,
+                    FontSize = 15,
+                    Separator = new Separator() { Stroke = Brushes.Black },
+
+
+                });
+            }
+            if (this is SumOfParkedInEachMonthPercent)
+            {
+
+            }
+            else
+            {
+                chart.LegendLocation = LegendLocation.Right;
+            }
             chart.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255));
             chart.FontSize = 20;
+            chart.ChartLegend.FontSize = 15;
 
             chart.FontFamily = new FontFamily("Segoe UI Black");
             chart.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
 
         }
-
-
-
-
-
 
         public void TakeTheChart()
         {
@@ -93,15 +114,6 @@ namespace Generator_PDF.GenerateChart
             //      GenerateTAble(chart);
             SaveToPng(chart, chart.Tag.ToString());
             //png file was created at the root directory.
-        }
-
-        private void GenerateTAble(CartesianChart chart)
-        {
-            SeriesCollection z = chart.Series;
-            IChartValues chartValues = z[0].Values;
-            AxesCollection axisX = chart.AxisX;
-
-
         }
 
         public void SaveToPng(FrameworkElement visual, string fileName)
@@ -125,194 +137,22 @@ namespace Generator_PDF.GenerateChart
                 variableOfImage.Tag = $"{fileName}";
             }
             imageChart = variableOfImage;
-            OnAddCurrentCarParks(imageChart);
+            OnAddCurrentCarParks(imageChart,this);
+       
 
         }
 
-        public delegate void GetImageHandler(System.Drawing.Bitmap image, ImageArgs imageArgs);
+        public delegate void GetImageHandler(System.Drawing.Bitmap image, AbstractChart chart, ImageArgs imageArgs);
         public event GetImageHandler AddCurrentImage;
 
-        protected virtual void OnAddCurrentCarParks(System.Drawing.Bitmap imagechar)
+        protected virtual void OnAddCurrentCarParks(System.Drawing.Bitmap imagechar, AbstractChart Chart)
         {
             if (AddCurrentImage != null)
             {
-                AddCurrentImage(imageChart, new ImageArgs() { image = imagechar });
+                AddCurrentImage(imageChart,this, new ImageArgs() { image = imagechar });
             }
         }
-
-        public static void GeneratePDF(List<System.Drawing.Image> images, Dictionary<int, List<PdfPTable>> pdfPTables) //, List<IdParking> listcarParks, List<List<IdParking>> listListCarParks, List<List<IdParking>> listListCarParksPercent)
-        {
-            Document document = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
-            List<System.Drawing.Image> vs = new List<System.Drawing.Image>();
-
-        
-                try
-                {
-                    PdfWriter.GetInstance(document, new FileStream("Chap0101.pdf", FileMode.Create));
-                }
-                catch
-                {
-                    PdfWriter.GetInstance(document, new FileStream("Chap0101.pdf", FileMode.Create));
-                }
-          
-        
-            document.Open();
-            foreach (var item in pdfPTables)
-            {
-
-                images.OrderBy(x => x.Tag);
-
-                foreach (var image in images)
-                {
-
-                    if ( !vs.Contains(image))
-                    {
-                        if(int.Parse(image.Tag.ToString()) == 5)
-                        {
-                            iTextSharp.text.Image pivc = iTextSharp.text.Image.GetInstance(image, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-                            if (pivc.Height > pivc.Width)
-                            {
-                                //Maximum height is 800 pixels.
-                                float percentage = 0.0f;
-                                percentage = 700 / pivc.Height;
-                                pivc.ScalePercent(percentage * 100);
-                            }
-                            else
-                            {
-                                //Maximum width is 600 pixels.
-                                float percentage = 0.0f;
-                                percentage = 540 / pivc.Width;
-                                pivc.ScalePercent(percentage * 100);
-                            }
-
-                            //   pic.Border = iTextSharp.text.Rectangle.BOX;
-                            //  pic.BorderColor = iTextSharp.text.BaseColor.BLACK;
-                            //     pic.BorderWidth = 3f;
-
-                            document.Add(pivc);
-                            vs.Add(image);
-                            Paragraph paragrapha = new Paragraph();
-                            paragrapha.SetLeading(1.0f, 3.0f);
-                            break;
-                        }
-
-                        
-                            iTextSharp.text.Image pic = iTextSharp.text.Image.GetInstance(image, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-                            if (pic.Height > pic.Width)
-                            {
-                                //Maximum height is 800 pixels.
-                                float percentage = 0.0f;
-                                percentage = 700 / pic.Height;
-                                pic.ScalePercent(percentage * 100);
-                            }
-                            else
-                            {
-                                //Maximum width is 600 pixels.
-                                float percentage = 0.0f;
-                                percentage = 540 / pic.Width;
-                                pic.ScalePercent(percentage * 100);
-                            }
-
-                            //   pic.Border = iTextSharp.text.Rectangle.BOX;
-                            //  pic.BorderColor = iTextSharp.text.BaseColor.BLACK;
-                            //     pic.BorderWidth = 3f;
-
-                            document.Add(pic);
-                            vs.Add(image);
-                            Paragraph paragraph = new Paragraph();
-                            paragraph.SetLeading(1.0f, 3.0f);
-
-                            document.Add(paragraph);
-                            paragraph = new Paragraph();
-                            paragraph.SetLeading(1.0f, 3.0f);
-
-                        
-                        int j = 0;
-                        double b = double.Parse(image.Tag.ToString());
-                        while (j != 100)
-                        {
-                            if (b == item.Key)
-                            {
-                                break;
-                            }
-                            j++;
-                            b = b + b;
-                        }
-                        if (b == item.Key )
-                            for (int i = 0; i < item.Value.Count; i++)
-                            {
-                                paragraph = new Paragraph();
-                                paragraph.Add("Dokładne Dane:");
-                                paragraph.SetLeading(1.0f, 3.0f);
-                                paragraph.Add(pdfPTables[item.Key][i]);
-
-
-                                document.Add(paragraph);
-                            }
-                        break;
-                    }
-                }
-
-
-
-                document.NewPage();
-
-            }
-            try
-            {
-                document.Close();
-            }
-            catch
-            {
-
-            }
-            MessageBox.Show("PDF Wygenerowany");
-        }
-
-        public PdfPTable Createtable(List<IdParking> listcarParks)
-        {
-
-            PdfPTable table = new PdfPTable(listcarParks.Count);
-
-            foreach (var item in listcarParks)
-            {
-                table.AddCell(item.name);
-            }
-            foreach (var item in listcarParks)
-            {
-                table.AddCell(item.count.ToString());
-            }
-            //  8//      table.SpacingAfter = 30f;
-            //       table.SpacingBefore = 30f;
-
-
-            return table;
-        }
-        public void Createtable(List<List<IdParking>> listListCarParks)
-        {
-            foreach (var item in listListCarParks)
-            {
-
-
-                PdfPTable table = new PdfPTable(item.Count);
-
-                foreach (var park in item)
-                {
-                    table.AddCell(park.GrupuByTime.ToString());
-                }
-                foreach (var park in item)
-                {
-                    table.AddCell(park.count.ToString());
-                }
-                //        table.SpacingAfter =30f;
-                //         table.SpacingBefore = 3f;
-                table.AddCell(new Phrase("COOOO"));
-                //   MVGeneratePDF.pdfPTables.Add(table);
-            }
-        }
-
 
     }
+   
 }

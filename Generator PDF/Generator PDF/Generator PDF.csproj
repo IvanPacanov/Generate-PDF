@@ -63,6 +63,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GenerateChart\SumOfParkedByMonthPercent.cs" />
+    <Compile Include="PDF\IChapterAndSectionMethod.cs" />
+    <Compile Include="PDF\CreateChapter.cs" />
+    <Compile Include="PDF\CreatePDF.cs" />
     <Compile Include="DateTimeConvert\TimeConvert.cs" />
     <Compile Include="GenerateChart\AbstractChart.cs" />
     <Compile Include="GenerateChart\ChartSelect.cs" />
@@ -73,7 +77,8 @@
     <Compile Include="GenerateChart\SelectCountParking.cs" />
     <Compile Include="GenerateChart\SumOfParked.cs" />
     <Compile Include="GenerateChart\SumOfParkedByMonth.cs" />
-    <Compile Include="GenerateChart\SumOfParkedInEachMonthByHours.cs" />
+    <Compile Include="GenerateChart\SumOfVehiclesInMonthOnCarPark.cs" />
+    <Compile Include="GenerateChart\SumOfParkedInEachMonthPercent.cs" />
     <Compile Include="GenerateChart\SumOfParkedInMonth.cs" />
     <Compile Include="GenerateChart\TableCreate.cs" />
     <Compile Include="MySqlClass\ConnectionMySql.cs" />
@@ -81,6 +86,7 @@
     <Compile Include="NumberOfCarPark.xaml.cs">
       <DependentUpon>NumberOfCarPark.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PDF\CreateSection.cs" />
     <Compile Include="VM\BaseViewClass.cs" />
     <Compile Include="VM\SelectParkingWindow\CarParksArgs.cs" />
     <Compile Include="VM\EnumMonth.cs" />

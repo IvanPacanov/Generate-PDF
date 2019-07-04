@@ -33,8 +33,8 @@ namespace Generator_PDF.GenerateChart
             Axis axisX = new Axis()
             {
                 Separator = new Separator() { Step = 1, IsEnabled = false },
-                Foreground = System.Windows.Media.Brushes.IndianRed,
-                FontSize = 20
+                Foreground = System.Windows.Media.Brushes.Black,
+                FontSize = 15
             };
             axisX.Labels = new List<string>();
             for (int i = 0; i <= 23; i++)

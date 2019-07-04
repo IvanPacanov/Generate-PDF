@@ -1,42 +1,45 @@
 ﻿using Generator_PDF.VM;
+using iTextSharp.text.pdf;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using iTextSharp.text.pdf;
-
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Generator_PDF.GenerateChart
 {
-    class SumOfParkedByMonth : AbstractChart
+    class SumOfParkedByMonthPercent : AbstractChart
     {
-        List<List<IdParking>>  listListCarPark;
-      public  List<PdfPTable> pdfTablelist;
+        List<List<IdParking>> listListCarPark;
+        public List<PdfPTable> pdfTablelist;
         PdfPTable pdfTable;
 
         int min = 99;
         int months = 0;
-        public SumOfParkedByMonth(List<List<IdParking>> listListCarParks, int key)
+        public SumOfParkedByMonthPercent(List<List<IdParking>> listListCarParks, int key)
         {
             listListCarPark = new List<List<IdParking>>();
             pdfTablelist = new List<PdfPTable>();
             chart = new CartesianChart();
             chart.Tag = key.ToString();
-            listListCarPark = listListCarParks;         
-            
+            listListCarPark = listListCarParks;
+
         }
 
 
-     
+
         public override Axis SetAxisX()
         {
-            Axis axisX = new Axis() { Foreground = System.Windows.Media.Brushes.Black,
+            Axis axisX = new Axis()
+            {
+                Foreground = System.Windows.Media.Brushes.Black,
                 FontSize = 20,
-                  Separator = new Separator() { StrokeThickness = 0, Step = 1 }
+                Separator = new Separator() { StrokeThickness = 0, Step = 1 }
             };
             axisX.Labels = new List<string>();
-            for (int i = min; i <= months+1; i++)
+            for (int i = min; i <= months + 1; i++)
             {
                 try
                 {
@@ -54,22 +57,22 @@ namespace Generator_PDF.GenerateChart
         {
             min = 99;
             SeriesCollection seriesCollection = new SeriesCollection();
-           
-            
 
 
 
-                       for (int i = 0; i < listListCarPark.Count; i++)
+
+
+            for (int i = 0; i < listListCarPark.Count; i++)
             {
-              
+
                 try
                 {
                     if (months < listListCarPark[i].Select(x => x.GrupuByTime).Max())
                     {
                         months = listListCarPark[i].Select(x => x.GrupuByTime).Max();
-                       
+
                     }
-                    if(min > listListCarPark[i].Select(x => x.GrupuByTime).Min())
+                    if (min > listListCarPark[i].Select(x => x.GrupuByTime).Min())
                     {
                         min = listListCarPark[i].Select(x => x.GrupuByTime).Min();
                     }
@@ -79,7 +82,7 @@ namespace Generator_PDF.GenerateChart
 
                 }
             }
-                                 
+
             foreach (var carPark in listListCarPark)
             {
                 pdfTable = new PdfPTable(months);
@@ -92,10 +95,10 @@ namespace Generator_PDF.GenerateChart
                 }
                 for (int i = min; i <= months; i++)
                 {
-                   
-                        if (!carPark.Exists(x => x.GrupuByTime == i))
-                        {
-                      
+
+                    if (!carPark.Exists(x => x.GrupuByTime == i))
+                    {
+
                         if (i < months)
                         {
                             carPark.Insert(mont, new IdParking() { GrupuByTime = i, name = carPark[0].name, count = 0 });
@@ -108,29 +111,29 @@ namespace Generator_PDF.GenerateChart
                         ts.Add(carPark[licznik].count);
                         licznik++;
                     }
-                        else
-                        {
+                    else
+                    {
                         pdfTable.AddCell(carPark[licznik].count.ToString());
-                           ts.Add(carPark[licznik].count);
+                        ts.Add(carPark[licznik].count);
                         licznik++;
-                        }
+                    }
 
-                  
+
 
 
                 }
                 seriesCollection.Add(new ColumnSeries
                 {
-                   
+
                     Title = carPark[0].name,
                     Values = ts
 
                 });
                 pdfTablelist.Add(pdfTable);
             }
-            
-            
-          
+
+
+
             return seriesCollection;
         }
     }

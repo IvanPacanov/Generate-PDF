@@ -21,7 +21,6 @@ namespace Generator_PDF.GenerateChart
             pdfTablelist = new List<PdfPTable>();
             chart = new CartesianChart();
             chart.Tag = key.ToString();
-            //  chart.Name = name;
             listListCarPark = listListCarParks;
         }
 
@@ -31,7 +30,7 @@ namespace Generator_PDF.GenerateChart
             ChartValues<double> ts = new ChartValues<double>();
             int min = MVGeneratePDF.availableFrom.Value.Month;
             int max = MVGeneratePDF.availableTo.Value.Month;
-            int licznik = 0;
+         
             int month = MVGeneratePDF.availableTo.Value.Month-MVGeneratePDF.availableFrom.Value.Month;
             pdfTable = new PdfPTable(month+1);
             for (int i = min; i <= max; i++)

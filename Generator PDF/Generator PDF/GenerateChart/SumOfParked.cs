@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 using Generator_PDF.VM;
 using LiveCharts;
 using LiveCharts.Wpf;
@@ -16,8 +17,11 @@ namespace Generator_PDF.GenerateChart
         List<IdParking> listcarParks;
         public SumOfParked(List<List<IdParking>> listcarParks)
         {
-            chart = new CartesianChart();
+            chart = new CartesianChart() ;
             chart.Tag = "1";
+            chart.Background = Brushes.Black ;
+    
+            
             this.listcarParks = listcarParks[0];
         }
 
@@ -25,10 +29,11 @@ namespace Generator_PDF.GenerateChart
         {
             return new Axis()
             {
-                // Foreground = System.Windows.Media.Brushes.DodgerBlue,
+                Foreground = Brushes.Black,
                 FontSize = 20,
-                ShowLabels = false,
-                Title = "Ilość wzbudzeń"
+                Separator = new Separator() { Stroke = Brushes.Black },
+              ShowLabels = false,
+                Title = "Ilość Pojazdów"
             };
         }
 
