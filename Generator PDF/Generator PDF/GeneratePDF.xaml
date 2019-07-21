@@ -58,7 +58,7 @@
         <Grid Grid.Row="1" >
 
 
-            <ListBox Foreground="#FFF1F1F1" Background="#FF333337" Height="auto" Width="250"
+            <ListBox x:Name="selectList" Foreground="#FFF1F1F1" Background="#FF333337" Height="auto" Width="250"
                          
                           ItemsSource="{Binding possiblyOperationsListBox}"
                                     SelectionChanged="lstBox_SelectionChanget"    
@@ -76,7 +76,7 @@
         </Grid>
         <Grid Grid.Column="1" Grid.Row="1">
 
-            <ListBox x:Name="List" Foreground="#FFF1F1F1" Background="#FF333337" Height="auto" Width="250"
+            <ListBox x:Name="mainList" Foreground="#FFF1F1F1" Background="#FF333337" Height="auto" Width="250"
                          
                           ItemsSource="{Binding operationsListBox}"
                       SelectionChanged="lstBox_SelectionChangetRemove"     

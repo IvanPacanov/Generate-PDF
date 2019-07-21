@@ -142,6 +142,45 @@ namespace Generator_PDF.GenerateChart
 
         }
 
+
+        public double[] SortByCount(List<IdParking> idParkings)
+        {
+            double[] sorted = new double[48];
+            int count = idParkings.Count;
+            for (int i = 0; i <= 23; i++)
+            {
+                if (count != 24)
+                {
+                    sorted[i] = 0;
+                    count++;
+                }
+                else
+                {
+                    sorted[i] = idParkings[i - (count - idParkings.Count)].count;
+                }
+            }
+            int counter = 23;
+            for (int i = 0; i < sorted.Length; i++)
+            {
+                if (i > 0)
+                {
+                    if (sorted[i] == sorted[i - 1] && i < idParkings.Count)
+                    {
+                        double help = sorted[i];
+                        sorted[i] = sorted[i + 1];
+                        sorted[i + 1] = help;
+                    }
+                    else if (i >= sorted.Length / 2)
+                    {
+                        sorted[i] = sorted[counter--];
+                    }
+                }
+            }
+            return sorted;
+        }
+
+
+
         public delegate void GetImageHandler(System.Drawing.Bitmap image, AbstractChart chart, ImageArgs imageArgs);
         public event GetImageHandler AddCurrentImage;
 

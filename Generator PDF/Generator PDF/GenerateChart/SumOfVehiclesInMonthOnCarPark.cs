@@ -28,40 +28,60 @@ namespace Generator_PDF.GenerateChart
         {
             SeriesCollection seriesCollection = new SeriesCollection();
             ChartValues<double> ts = new ChartValues<double>();
-            int min = MVGeneratePDF.availableFrom.Value.Month;
-            int max = MVGeneratePDF.availableTo.Value.Month;
-         
-            int month = MVGeneratePDF.availableTo.Value.Month-MVGeneratePDF.availableFrom.Value.Month;
-            pdfTable = new PdfPTable(month+1);
-            for (int i = min; i <= max; i++)
+            int z = ((MVGeneratePDF.availableTo.Value.Year - MVGeneratePDF.availableFrom.Value.Year) * 12) + MVGeneratePDF.availableTo.Value.Month - MVGeneratePDF.availableFrom.Value.Month;
+            int counter = 0;
+            var aaa = listListCarPark.OrderBy(x => x.Year).ThenBy(y => y.GrupuByTime);
+            listListCarPark = aaa.ToList();
+            while (listListCarPark.Count!=z+1)
             {
-                pdfTable.AddCell(Enum.GetName(typeof(EnumMonth), i));
+
+                if (MVGeneratePDF.availableFrom.Value.Month != listListCarPark[0].GrupuByTime && counter == 0)
+                {
+                    listListCarPark.Insert(counter, new IdParking() { GrupuByTime = MVGeneratePDF.availableFrom.Value.Month, count = 0, Year = MVGeneratePDF.availableFrom.Value.Year });
+
+                }             
+                else if (listListCarPark[counter-1].GrupuByTime != listListCarPark[counter].GrupuByTime-1 && listListCarPark[counter-1].GrupuByTime != 12)
+                {
+                    listListCarPark.Insert(counter+1, new IdParking() { GrupuByTime = listListCarPark[counter].GrupuByTime + 1, count = 0, Year = listListCarPark[counter].Year });
+                    counter++;
+                }
+                else if (listListCarPark[counter].GrupuByTime-11 != listListCarPark[counter].GrupuByTime && listListCarPark[counter].GrupuByTime == 12)
+                {
+                    listListCarPark.Insert(counter + 1, new IdParking() { GrupuByTime = 1, count = 0, Year = listListCarPark[counter].Year + 1 });
+                    counter++;
+                }
+                else
+                {
+                    counter++;
+                }
+
+               
+
+
             }
+            pdfTable = new PdfPTable(listListCarPark.Count);
+            foreach (var item in listListCarPark)
+            {
+
+                pdfTable.AddCell(Enum.GetName(typeof(EnumMonth), item.GrupuByTime));
+            }
+                
+       
 
 
-            for (int i = min; i <= max; i++)
+            for (int i = 0; i <= z; i++)
             {
                 ts = new ChartValues<double>();
-                if (listListCarPark.Exists(x => x.GrupuByTime == i))
-                    {
-                        pdfTable.AddCell(listListCarPark[i-1].count.ToString());
-                        ts.Add(listListCarPark[i-1].count);
+                                   pdfTable.AddCell(listListCarPark[i].count.ToString());
+                        ts.Add(listListCarPark[i].count);
                         
-                    }
-                    else
-                {
-                    pdfTable.AddCell("0");
-                    ts.Add(0);
-                }
+        
                 seriesCollection.Add(new ColumnSeries
                 {
-                    Title = Enum.GetName(typeof(EnumMonth), i),
+                    Title = Enum.GetName(typeof(EnumMonth), listListCarPark[i].GrupuByTime),
                     Values = ts
 
-                });
-
-
-                        
+                });                        
            
             }
             pdfTablelist.Add(pdfTable);

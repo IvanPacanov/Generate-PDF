@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Generator_PDF.VM;
 using LiveCharts.Wpf;
 
@@ -23,6 +24,9 @@ namespace Generator_PDF
             mVGeneratePDF = new MVGeneratePDF();
             this.DataContext = mVGeneratePDF;
 
+            selectList.MouseDoubleClick += new MouseButtonEventHandler(DoubleClickAdd);
+            mainList.MouseDoubleClick += new MouseButtonEventHandler(DoubleClickRemove);
+
             if (mVGeneratePDF.SelectedOperationListBox == null)
             {
                 mVGeneratePDF.SelectedOperationListBox = new Func<Operation>(GetSecelectedItemToAdd);
@@ -39,6 +43,16 @@ namespace Generator_PDF
             {
                 MVGeneratePDF.ShowWindow = new Action(this.Show);
             }
+        }
+
+        private void DoubleClickRemove(object sender, MouseButtonEventArgs e)
+        {
+            mVGeneratePDF.RemoveOperation();
+        }
+
+        private void DoubleClickAdd(object sender, EventArgs e)
+        {
+            mVGeneratePDF.AddOperation();
         }
 
         public void GetIdParking()

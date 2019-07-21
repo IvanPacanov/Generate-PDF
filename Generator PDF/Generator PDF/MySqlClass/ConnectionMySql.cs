@@ -1,4 +1,5 @@
 ﻿using Generator_PDF.GenerateChart;
+using Generator_PDF.MySqlClass;
 using Generator_PDF.VM;
 using MySql.Data.MySqlClient;
 using System;
@@ -27,7 +28,7 @@ namespace Generator_PDF
                 return connectionMySql;
             }
         }
-        
+
 
         private ConnectionMySql() { }
 
@@ -51,14 +52,13 @@ namespace Generator_PDF
         #endregion
 
         private long toTime;
-        public long ToTime { get => toTime; set => toTime = value; }       
-      
+        public long ToTime { get => toTime; set => toTime = value; }
+
         private long fromTime;
         public long FromTime { get => fromTime; set => fromTime = value; }
         private string cmdText;
 
-        //private MySqlConnectionStringBuilder conn_string;
-        //private MySqlConnection mySqlConnection;
+
         public static ConnectionMySql CreateOrGetConnectionClass()
         {
             if (connectionMySql == null)
@@ -103,8 +103,8 @@ namespace Generator_PDF
 
         }
 
-     
-         public ObservableCollection<IdParking> GetCarParks()
+
+        public ObservableCollection<IdParking> GetCarParks()
         {
             ObservableCollection<IdParking> idParkings = new ObservableCollection<IdParking>();
             MySqlConnectionStringBuilder conn_string = new MySqlConnectionStringBuilder();
@@ -127,53 +127,122 @@ namespace Generator_PDF
             mySqlConnection.Close();
             return idParkings;
 
+
         }
 
+        #region firs question
 
         public async Task numberVehicle(List<IdParking> idParkings, int key)
         {
-          
-            AddListParkings += MVGeneratePDF.OnAddListParkings;
+
+      
             MySqlConnectionStringBuilder conn_string = new MySqlConnectionStringBuilder();
             conn_string.Server = $"{server}";
             conn_string.Port = 3306;
             conn_string.Database = $"{database}";
             conn_string.UserID = $"{user}";
             conn_string.Password = $"{password}";
+            conn_string.ConnectionTimeout = 600000;
+            conn_string.ConnectionLifeTime = 600000;
             MySqlConnection mySqlConnection = new MySqlConnection(conn_string.ToString());
-
-
             MySqlCommand mySqlCommand;
             MySqlDataReader mySqlDataReader;
-
+            int z = 0;
             foreach (var item in idParkings)
             {
-                mySqlConnection.Open();
-                cmdText = $"SELECT COUNT(Address) FROM History WHERE Address IN (SELECT detectorID FROM Czujniki WHERE parkingID = {item.idParking}) AND DateTime BETWEEN {fromTime} and {toTime};";
-                mySqlCommand = new MySqlCommand(cmdText, mySqlConnection);
-                mySqlDataReader = mySqlCommand.ExecuteReader();
-                while (mySqlDataReader.Read())
+                string cmd = $"SELECT *  FROM History WHERE Address IN(SELECT detectorID FROM Czujniki WHERE parkingID = {item.idParking})AND DateTime BETWEEN {fromTime} and {toTime} ORDER BY DateTime ASC ";
+
+                mySqlConnection.Open();          
+
+                List<StruckTest> test = new List<StruckTest>();
+
+                mySqlCommand = new MySqlCommand(cmd, mySqlConnection);
+                try
                 {
-                    item.count = int.Parse(mySqlDataReader.GetString(0));
-                    await Task.Delay(1);
+                    mySqlDataReader = mySqlCommand.ExecuteReader();
+               
+                    while (mySqlDataReader.Read())
+                    {
+                        test.Add(new StruckTest()
+                        {
+                            isBusy = int.Parse(mySqlDataReader.GetString(4)),
+                            Address = (int.Parse(mySqlDataReader.GetString(2)))
+                        });
+
+
+                    }
                 }
+                catch(Exception e)
+                {
+
+                    MessageBox.Show(e.ToString());
+                }
+ 
                 mySqlConnection.Close();
+                var help = test.GroupBy(x => x.Address);
+                IEnumerable<StruckTest> smths = help.SelectMany(group => group);
+                List<StruckTest> newList = smths.ToList();
+                List<StruckTest> newList1 = new List<StruckTest>();
+                try
+                {
+                    foreach (var itemm in help)
+                    {
+
+                        newList1.AddRange(GetTrigger(newList.Where(x => x.Address == itemm.Key).ToList()));
+
+                    }
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+                
+                item.count += newList1.Count;
+             
+
+               
+
+
 
             }
-           
+            await Task.Delay(1);
+
             OnAddListParkings(key, new List<List<IdParking>>() { idParkings });
-           // return true;
 
         }
+        private int CalculateCount(IEnumerable<StruckTest> count)
+        {
+            int sum = 0;
+       
+           
+
+            List<StruckTest> newList = count.ToList();
+            for (int i = 0; i < newList.Count; i++)
+            {           
+                try
+                {                
+
+                    if (newList.ElementAt(i).isBusy != newList.ElementAt(i+1).isBusy && newList.ElementAt(i+1).isBusy == 1)
+                    {
+                        sum++;
+                    }
+
+                }
+                catch
+                {
+
+                }
+            }
+            return sum;
+        }
+
+        #endregion
 
 
         public async Task numberVehicleGroupBy(List<IdParking> idParkings, GroupBy groupBy, int key)
         {
 
             List<IdParking> idParkingss;
-            //   List<IdParking> percent;
-
-            AddListParkings += MVGeneratePDF.OnAddListParkings;
 
 
             List<List<IdParking>> parkings = new List<List<IdParking>>();
@@ -183,6 +252,8 @@ namespace Generator_PDF
             conn_string.Database = $"{database}";
             conn_string.UserID = $"{user}";
             conn_string.Password = $"{password}";
+     //       conn_string.ConnectionTimeout = 600000;
+       //     conn_string.ConnectionLifeTime = 600000;
             MySqlConnection mySqlConnection = new MySqlConnection(conn_string.ToString());
 
 
@@ -191,33 +262,114 @@ namespace Generator_PDF
             foreach (var item in idParkings)
             {
                 idParkingss = new List<IdParking>();
-              //  percent = new List<IdParking>();
-                mySqlConnection.Open();                
-                cmdText = $"SELECT {groupBy.ToString()}(FROM_UNIXTIME(DateTime/1000)), COUNT(Address) FROM History WHERE Address IN(SELECT detectorID FROM Czujniki WHERE parkingID= {item.idParking}) AND DateTime BETWEEN {fromTime} and {toTime} GROUP BY {groupBy.ToString()}(FROM_UNIXTIME(DateTime/1000))";
+                //  percent = new List<IdParking>();
+                mySqlConnection.Open();
+
+                //SELECT* FROM History WHERE Address IN(SELECT detectorID FROM Czujniki WHERE parkingID = { item.idParking})AND DateTime BETWEEN { fromTime}
+                //and { toTime}
+                cmdText = $"SELECT Address,IsBusy,{GroupBy.YEAR.ToString()}(FROM_UNIXTIME(DateTime/1000)),{groupBy.ToString()}(FROM_UNIXTIME(DateTime/1000)) FROM History WHERE Address IN(SELECT detectorID FROM Czujniki WHERE parkingID= {item.idParking}) AND DateTime BETWEEN {fromTime} and {toTime} ORDER BY `DateTime` ASC";
+                List<StruckTest> test = new List<StruckTest>();
+                //  cmdText = $"SELECT {groupBy.ToString()}(FROM_UNIXTIME(DateTime/1000)), COUNT(*) FROM(SELECT * FROM History WHERE Address IN(SELECT detectorID FROM Czujniki WHERE parkingID = { item.idParking}) ORDER BY Address DESC) AS h1 INNER JOIN History h2 ON h2.idHistory = h1.idHistory + 1 WHERE(h2.IsBusy <> h1.IsBusy) AND h1.DateTime BETWEEN { fromTime} and { toTime} GROUP BY {groupBy.ToString()}(FROM_UNIXTIME(DateTime/1000))";
                 mySqlCommand = new MySqlCommand(cmdText, mySqlConnection);
-                mySqlDataReader = mySqlCommand.ExecuteReader();
-                while (mySqlDataReader.Read())
+                try
                 {
-                    idParkingss.Add(new IdParking { GrupuByTime = int.Parse(mySqlDataReader.GetString(0)), count = int.Parse(mySqlDataReader.GetString(1)), idParking = item.idParking, name = item.name });
-                 //   percent.Add(new IdParking { GrupuByTime = int.Parse(mySqlDataReader.GetString(0)), count = int.Parse(mySqlDataReader.GetString(1)), idParking = item.idParking, name = item.name });// int.Parse(mySqlDataReader.GetString(0));
-                    await Task.Delay(1);
+                    mySqlDataReader = mySqlCommand.ExecuteReader();
+               
+                    while (mySqlDataReader.Read())
+                    {
+                        if (groupBy == GroupBy.MONTH)
+                        {
+                            test.Add(new StruckTest()
+                            {
+                                isBusy = int.Parse(mySqlDataReader.GetString(1)),
+                                Address = (int.Parse(mySqlDataReader.GetString(0))),
+                                YEAR = (int.Parse(mySqlDataReader.GetString(2))),
+                                Month = (int.Parse(mySqlDataReader.GetString(3)))
+                            });
+                        }
+                       else if (groupBy == GroupBy.HOUR)
+                        {
+                            test.Add(new StruckTest()
+                            {
+                                isBusy = int.Parse(mySqlDataReader.GetString(1)),
+                                Address = (int.Parse(mySqlDataReader.GetString(0))),                              
+                                Hour = (int.Parse(mySqlDataReader.GetString(3)))
+                            });
+                        }
+                    }
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(e.ToString());
                 }
                 mySqlConnection.Close();
+                var help = test.GroupBy(x => x.Address);
+                IEnumerable<StruckTest> smths = help.SelectMany(group => group);
+                    List<StruckTest> newList = smths.ToList();
+                List<StruckTest> newList1 = new List<StruckTest>();
+                foreach (var itemm in help)
+                {
+                    newList1.AddRange(GetTrigger(newList.Where(x => x.Address == itemm.Key).ToList()));
+                }
+
+                if (groupBy == GroupBy.MONTH)
+                {
+                    var all = newList1.GroupBy(x => new { x.YEAR, x.Month });
+                     foreach (var itemq in all.ToList())
+                    {
+                        idParkingss.Add(new IdParking { Year = itemq.Min(x => x.YEAR), GrupuByTime = itemq.Min(x => x.Month), count = itemq.Sum(x => x.isBusy), idParking = item.idParking, name = item.name });
+                    }
+                }
+                else if (groupBy == GroupBy.HOUR)
+                {
+
+                    var all = newList1.GroupBy(x => x.Hour);
+                    
+                    foreach (var itemq in all.ToList())
+                    {
+                        idParkingss.Add(new IdParking { GrubByInEachHour = itemq.Min(x => x.Hour), count = itemq.Sum(x => x.isBusy), idParking = item.idParking, name = item.name });
+                    }
+                    
+                }
+              var pppp=  idParkingss.OrderBy(x => x.GrubByInEachHour);
+                
+            
                 parkings.Add(idParkingss);
             }
-            
+            await Task.Delay(1);
 
             OnAddListParkings(key, parkings);
-      //      return true;
-        }
 
+        }
+        public List<StruckTest> GetTrigger(List<StruckTest> struckTests)
+        {
+            List<StruckTest> Help = new List<StruckTest>();
+            for (int i = 0; i < struckTests.Count; i++)
+            {
+                try
+                {
+                    if (struckTests.ElementAt(i).isBusy != struckTests.ElementAt(i + 1).isBusy && struckTests.ElementAt(i).isBusy==1)
+                    {
+                        Help.Add(struckTests.ElementAt(i));
+                    }
+                 
+                
+                }
+                catch
+                {
+
+                }
+
+            }
+            return Help;
+         
+        }
 
         public async Task numberVehicleGroupByInEachHoursOfMonth(List<IdParking> idParkings, int key)
         {
 
             List<IdParking> idParkingss;
-            //   List<IdParking> percent;
-            AddListParkings += MVGeneratePDF.OnAddListParkings;
+
             List<List<IdParking>> parkings = new List<List<IdParking>>();
             MySqlConnectionStringBuilder conn_string = new MySqlConnectionStringBuilder();
             conn_string.Server = $"{server}";
@@ -225,77 +377,66 @@ namespace Generator_PDF
             conn_string.Database = $"{database}";
             conn_string.UserID = $"{user}";
             conn_string.Password = $"{password}";
+            conn_string.ConnectionTimeout = 600000;
+            conn_string.ConnectionLifeTime = 600000;
             MySqlConnection mySqlConnection = new MySqlConnection(conn_string.ToString());
-            List<IdParking> moth = new List<IdParking>();
-            int last = -2;
-            int counter = 5;
+            List<IdParking> moth = new List<IdParking>();       
             MySqlCommand mySqlCommand;
             MySqlDataReader mySqlDataReader;
-            
+            List<StruckTest> test = new List<StruckTest>();
             foreach (var item in idParkings)
             {
                 idParkingss = new List<IdParking>();
-               //  percent = new List<IdParking>();
+                //  percent = new List<IdParking>();
                 mySqlConnection.Open();
-                cmdText = $"SELECT Month(FROM_UNIXTIME(DateTime/1000)), Hour(FROM_UNIXTIME(DateTime/1000)), COUNT(Address) FROM History WHERE Address IN( SELECT detectorID FROM Czujniki WHERE parkingID= {item.idParking}) AND DateTime BETWEEN {fromTime} and {toTime} GROUP BY Month(FROM_UNIXTIME(DateTime/1000)), Hour(FROM_UNIXTIME(DateTime/1000))";
+                cmdText = $"SELECT Address,IsBusy,{GroupBy.YEAR.ToString()}(FROM_UNIXTIME(DateTime/1000)) ,{GroupBy.MONTH.ToString()}(FROM_UNIXTIME(DateTime/1000)),{GroupBy.HOUR.ToString()}(FROM_UNIXTIME(DateTime/1000)) FROM History WHERE Address IN(SELECT detectorID FROM Czujniki WHERE parkingID= {item.idParking}) AND DateTime BETWEEN {fromTime} and {toTime} ORDER BY `DateTime` ASC";
                 mySqlCommand = new MySqlCommand(cmdText, mySqlConnection);
                 mySqlDataReader = mySqlCommand.ExecuteReader();
                 while (mySqlDataReader.Read())
                 {
-                    int zmienna = int.Parse(mySqlDataReader.GetString(1));
-                    try
+
+                    test.Add(new StruckTest()
                     {
-                        if (last > zmienna)
-                        {
-                            
-                                while (last < 23)
-                                {
-                                moth.Add(new IdParking { GrupuByTime = int.Parse(mySqlDataReader.GetString(0))+1, GrubByInEachHour = 0, count = 0, idParking = item.idParking, name = item.name });
-                                last++;
-                                }
-                          
+                        isBusy = int.Parse(mySqlDataReader.GetString(1)),
+                        Address = (int.Parse(mySqlDataReader.GetString(0))),
+                        YEAR = (int.Parse(mySqlDataReader.GetString(2))),
+                        Month = (int.Parse(mySqlDataReader.GetString(3))),
+                        Hour = (int.Parse(mySqlDataReader.GetString(4))),
 
-                            counter = 0;
-                            parkings.Add(moth);
-                            moth = new List<IdParking>();
-
-                            while (int.Parse(mySqlDataReader.GetString(1)) > counter)
-                            {
-                                moth.Add(new IdParking { GrupuByTime = parkings.Last()[0].GrupuByTime+1, GrubByInEachHour = 0, count = 0, idParking = item.idParking, name = item.name });
-                                counter++;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        moth = new List<IdParking>();
-                    }
+                    });
 
 
-                   
-
-
-
-                        moth.Add(new IdParking { GrupuByTime = int.Parse(mySqlDataReader.GetString(0)), GrubByInEachHour = int.Parse(mySqlDataReader.GetString(1)), count = int.Parse(mySqlDataReader.GetString(2)), idParking = item.idParking, name = item.name });
-                    //   percent.Add(new IdParking { GrupuByTime = int.Parse(mySqlDataReader.GetString(0)), count = int.Parse(mySqlDataReader.GetString(1)), idParking = item.idParking, name = item.name });// int.Parse(mySqlDataReader.GetString(0));
-                    await Task.Delay(1);
-                    last = int.Parse(mySqlDataReader.GetString(1));
-                   
                 }
 
                 mySqlConnection.Close();
-                parkings.Add(moth);
+                var help = test.GroupBy(x => x.Address);
+                IEnumerable<StruckTest> smths = help.SelectMany(group => group);
+               
+                List<StruckTest> newList = smths.ToList();
+                List<StruckTest> newList1 = new List<StruckTest>();
+                foreach (var itemm in help)
+                {
+                    newList1.AddRange(GetTrigger(newList.Where(x => x.Address == itemm.Key).ToList()));
+                }
+                var all = newList1.GroupBy(x => new { x.YEAR, x.Month, x.Hour });
+
+                foreach (var itemq in all.ToList())
+                {
+                    idParkingss.Add(new IdParking { Year = itemq.Min(x => x.YEAR), GrupuByTime = itemq.Min(x => x.Month),GrubByInEachHour = itemq.Min(x => x.Hour), count = itemq.Sum(x => x.isBusy), idParking = item.idParking, name = item.name });
+                }
+                parkings.Add(idParkingss);
             }
+            await Task.Delay(1);
             OnAddListParkings(key, parkings);
-            
-            //      return true;
+
+
         }
 
 
         public delegate void GetListHandler(int key, List<List<IdParking>> idParkings, ListIdParking imageArgs);
-        static  public event GetListHandler AddListParkings;
+        static public event GetListHandler AddListParkings;
 
-        protected virtual void OnAddListParkings(int key, List<List<IdParking>> idParkings )
+        protected virtual void OnAddListParkings(int key, List<List<IdParking>> idParkings)
         {
             if (AddListParkings != null)
             {
@@ -305,7 +446,7 @@ namespace Generator_PDF
 
     }
 }
-        
+
 
 
 

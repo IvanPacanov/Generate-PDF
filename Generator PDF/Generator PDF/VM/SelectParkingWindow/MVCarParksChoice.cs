@@ -55,13 +55,13 @@ namespace Generator_PDF.VM
 
         }
 
-        private void RemoveCarPark()
+        public void RemoveCarPark()
         {
             if (RemoveCarParksListBox() != null)
                 carParksListBox.Remove(RemoveCarParksListBox());
         }
 
-        private void AddCarPark()
+        public  void AddCarPark()
         {
             if (SelectedCarParksListBox() != null)
             {

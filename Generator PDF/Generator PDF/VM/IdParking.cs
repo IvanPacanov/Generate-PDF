@@ -12,6 +12,8 @@ namespace Generator_PDF.VM
         public string name { get; set; }
         public int GrupuByTime { get; set; }
 
+        public int Year { get; set; }
+
         public int GrubByInEachHour { get; set; }
         public double count { get; set; }
     }

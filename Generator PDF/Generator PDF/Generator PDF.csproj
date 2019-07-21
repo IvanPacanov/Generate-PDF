@@ -63,7 +63,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GenerateChart\LineSumByHour.cs" />
+    <Compile Include="GenerateChart\ListSumByHourEachMonth.cs" />
     <Compile Include="GenerateChart\SumOfParkedByMonthPercent.cs" />
+    <Compile Include="MySqlClass\RecordFromDataBase.cs" />
+    <Compile Include="MySqlClass\struckTest.cs" />
     <Compile Include="PDF\IChapterAndSectionMethod.cs" />
     <Compile Include="PDF\CreateChapter.cs" />
     <Compile Include="PDF\CreatePDF.cs" />

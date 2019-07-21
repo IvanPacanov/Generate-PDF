@@ -15,23 +15,52 @@ namespace Generator_PDF.GenerateChart
 
         static public void TheSumOfVehiclesInEachMonthByHours()
         {
-          //  ChangeToPercent(MVGeneratePDF.parkings[7]);
+          
             string name = null;
             double key = 7;
+
+            foreach (var item in MVGeneratePDF.parkings[7])
+            {
+                if (CreatePDF.minMont > item.Min(x => x.GrupuByTime))
+                {
+                    CreatePDF.minMont = item.Min(x => x.GrupuByTime);
+                }
+                if (CreatePDF.maxMont < item.Max(x => x.GrupuByTime))
+                {
+                    CreatePDF.maxMont = item.Max(x => x.GrupuByTime);
+                }
+            }
+       
+
             foreach (var parking in MVGeneratePDF.parkings[7])
             {
-                if (parking[0].name != name)
-                {
-                  
-                }
 
-                LineChart zz = new LineChart(new List<List<IdParking>>() { parking },"7");
+                List<List<IdParking>> months = new List<List<IdParking>>();
+                var monthsalla = parking.GroupBy(x => x.Year);
+
+                foreach (var item in monthsalla)
+                {
+
+                    var monthss = item.GroupBy(g => g.GrupuByTime).OrderBy(g => g.Key).SelectMany(g => g.OrderByDescending(x => x.GrupuByTime)).ToList();
+
+                    var montha = monthss.GroupBy(x => x.GrupuByTime);
+                    int a = 10;
+                    foreach (var itemm in montha)
+                    {
+
+                     //   months.Add(itemm.ToList());
+
+                
+                ListSumByHourEachMonth zz = new ListSumByHourEachMonth( itemm.ToList() ,"7");
                 zz.GeneerateChart();
                 MVGeneratePDF.PDfTableDictionary.Add(zz, zz.pdfTablelist);
                 name = parking[0].name;
                 key = key + key;
+                    }
+                }
             }
             MVGeneratePDF.counteOfChartr++;
+
         }
 
         static public void TheSumOfVehiclesInHoursEachParking()
@@ -41,7 +70,7 @@ namespace Generator_PDF.GenerateChart
          
             foreach (var parking in MVGeneratePDF.parkings[6])
             {
-                LineChart z = new LineChart(new List<List<IdParking>>() { parking },"6");
+                LineSumByHour z = new LineSumByHour(new List<List<IdParking>>() { parking },"6");
                 z.GeneerateChart();
                 MVGeneratePDF.PDfTableDictionary.Add(z, z.pdfTablelist);
                 key = key+key;
@@ -97,7 +126,7 @@ namespace Generator_PDF.GenerateChart
                 }
             }
         }
-        private static void ChangeToPercents(List<IdParking> idParkings)
+        public static void ChangeToPercents(List<IdParking> idParkings)
         {
           
                 double total = idParkings.Sum(x => x.count);
@@ -118,7 +147,7 @@ namespace Generator_PDF.GenerateChart
                 {
                     if (i == 1)
                     {
-                        ChangeToPercents(parking);
+                      
                         SumOfParkedInEachMonthPercent sumOfParkedInEachMonthPercent = new SumOfParkedInEachMonthPercent(parking, 4);
                         
                         sumOfParkedInEachMonthPercent.GeneerateChart();

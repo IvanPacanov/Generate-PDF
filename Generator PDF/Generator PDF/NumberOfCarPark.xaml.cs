@@ -34,6 +34,9 @@ namespace Generator_PDF
             carParksChoice = new MVCarParksChoice();
             this.DataContext = CarParksChoice;
 
+            selectList.MouseDoubleClick += new MouseButtonEventHandler(DoubleClickAdd);
+            mainList.MouseDoubleClick += new MouseButtonEventHandler(DoubleClickRemove);
+
             if (carParksChoice.SetCarParks == null)
             {
                 carParksChoice.SetCarParks = new Action(SetCarPark);
@@ -49,8 +52,19 @@ namespace Generator_PDF
 
             }
 
-            AddCurrentCarParks += MVGeneratePDF.OnAddCurrentDevice;
+            AddCurrentCarParks += MVGeneratePDF.OnAddCurrentCarParksObservableCollection;
         }
+
+        private void DoubleClickRemove(object sender, MouseButtonEventArgs e)
+        {
+            carParksChoice.RemoveCarPark();
+        }
+
+        private void DoubleClickAdd(object sender, EventArgs e)
+        {
+            carParksChoice.AddCarPark();
+        }
+
         public void SetCarPark()
         {
             OnAddCurrentCarParks(CarParksChoice.carParksListBox);

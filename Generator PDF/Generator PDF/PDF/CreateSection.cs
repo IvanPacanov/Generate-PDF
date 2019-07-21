@@ -36,6 +36,8 @@ namespace Generator_PDF.PDF
         }
         public void AddTable(PdfPTable table)
         {
+            table.SpacingBefore = 10f;
+            table.SpacingAfter = 12.5f;
             table.HorizontalAlignment = Element.ALIGN_CENTER;
             Paragraph paragraph = new Paragraph();
             paragraph.SetLeading(1.0f, 3.0f);

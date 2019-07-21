@@ -1,21 +1,21 @@
-﻿using System;
+﻿using Generator_PDF.VM;
+using iTextSharp.text.pdf;
+using LiveCharts;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Generator_PDF.VM;
-using iTextSharp.text.pdf;
-using LiveCharts;
-using LiveCharts.Wpf;
 
 namespace Generator_PDF.GenerateChart
 {
-    class LineChart : AbstractChart
+    class LineSumByHour : AbstractChart
     {
         List<List<IdParking>> listListCarParks;
         public List<PdfPTable> pdfTablelist;
-      
-        public LineChart(List<List<IdParking>> listListCarParks, string tag)
+
+        public LineSumByHour(List<List<IdParking>> listListCarParks, string tag)
         {
             pdfTablelist = new List<PdfPTable>();
             pdfTablelist.Add(new PdfPTable(12));
@@ -26,8 +26,6 @@ namespace Generator_PDF.GenerateChart
             chart = new CartesianChart();
             chart.Tag = tag;
             this.listListCarParks = listListCarParks;
-
-          
         }
 
         public override Axis SetAxisX()
@@ -54,7 +52,7 @@ namespace Generator_PDF.GenerateChart
                         pdfTablelist[1].AddCell(i.ToString());
                         pdfTablelist[3].AddCell(i.ToString());
                     }
-                  
+
                 }
                 catch
                 {
@@ -69,21 +67,18 @@ namespace Generator_PDF.GenerateChart
             SeriesCollection seriesCollection = new SeriesCollection();
             ColumnSeries columnSeries = new ColumnSeries();
             //        chart.AxisX.Add(SetAxisX());
-            int counter = 0;
-            for (int j  = 0; j < listListCarParks.Count; j++)
+
+            for (int j = 0; j < listListCarParks.Count; j++)
             {
 
-                double average = listListCarParks[j].Average(x => x.count);
-                double sumOfSquaresOfDifferences = listListCarParks[j].Select(val => (val.count - average) * (val.count - average)).Sum();
-                double sd = Math.Sqrt(sumOfSquaresOfDifferences / listListCarParks[j].Count);
 
                 var aaa = listListCarParks[j].OrderBy(x => x.Year).ThenBy(y => y.GrupuByTime);
                 listListCarParks[j] = aaa.ToList();
-                counter++;
+             //   counter++;
                 double total = listListCarParks[j].Sum(x => x.count);
                 ChartValues<double> ts = new ChartValues<double>();
 
-                double[] gauss = SortByCount(listListCarParks[j].OrderBy(x=>x.count).ToList());
+                double[] gauss = SortByCount(listListCarParks[j].OrderBy(x => x.count).ToList());
                 for (int i = 0; i <= gauss.Length; i++)
                 {
                     try
@@ -94,9 +89,9 @@ namespace Generator_PDF.GenerateChart
                     {
 
                     }
-                }
+                }          
 
-         
+
                 seriesCollection.Add(new LineSeries
                 {
                     Title = listListCarParks[j][0].name,
@@ -104,18 +99,15 @@ namespace Generator_PDF.GenerateChart
                     PointGeometry = null
 
                 });
-
             }
-
             return seriesCollection;
-        }
-      public double GetPow(double aa, double total)
+        }       
+        
+        public double GetPow(double aa, double total)
         {
             double a = Math.Round(((aa / total) * 100), 2);
-                return a;
+            return a;
         }
-      
 
-       
-    }
+}
 }

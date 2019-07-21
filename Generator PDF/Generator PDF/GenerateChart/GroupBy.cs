@@ -8,6 +8,7 @@ namespace Generator_PDF.GenerateChart
 {
    public enum GroupBy
     {
+        YEAR,
         MONTH,
         HOUR
     }

@@ -92,7 +92,7 @@ namespace Generator_PDF.GenerateChart
 
                 }
             }
-
+          
            
             foreach (var item in result)
                 {

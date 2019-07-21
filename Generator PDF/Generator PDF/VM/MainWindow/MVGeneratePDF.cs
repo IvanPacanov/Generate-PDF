@@ -3,23 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Generator_PDF.MySqlClass;
 using Generator_PDF.DateTimeConvert;
 using Prism.Commands;
-using LiveCharts;
-using LiveCharts.Wpf;
-using iTextSharp.text;
 using iTextSharp.text.pdf;
-using System.Windows.Media;
-using Image = iTextSharp.text.Image;
-using Separator = LiveCharts.Wpf.Separator;
 using System.Windows;
-using System.Windows.Media.Imaging;
-using System.IO;
 using Generator_PDF.GenerateChart;
 using System.Threading;
 
@@ -27,6 +17,7 @@ namespace Generator_PDF.VM
 {
     class MVGeneratePDF : BaseViewClass
     {
+        #region fields
         public static Dictionary<int, List<List<IdParking>>> parkings;
 
         public static Dictionary<object, List<PdfPTable>> PDfTableDictionary;
@@ -42,9 +33,11 @@ namespace Generator_PDF.VM
         public Action HideWindow { get; set; }
         public static Action ShowWindow { get; set; }
 
-       public static List<IdParking> idParkings;
+        public static List<IdParking> idParkings;
         public ObservableCollection<Operation> operationsListBox { get; set; }
         public ObservableCollection<Operation> possiblyOperationsListBox { get; set; }
+
+
         public static Nullable<DateTime> availableFrom;
         public Nullable<DateTime> AvailableFrom
         {
@@ -56,10 +49,6 @@ namespace Generator_PDF.VM
 
             }
         }
-
-
-
-
 
         public static Nullable<DateTime> availableTo;
         public Nullable<DateTime> AvailableTo
@@ -81,10 +70,13 @@ namespace Generator_PDF.VM
 
 
         static List<Thread> threadsList;
+
         public static int counteOfChartr;
         public ICommand GeneratePdfButtonCommand { get; private set; }
         public ICommand RemoveButtonCommand { get; private set; }
         public ICommand AddOperationButtonCommand { get; private set; }
+
+        #endregion
 
         public MVGeneratePDF()
         {
@@ -106,7 +98,8 @@ namespace Generator_PDF.VM
     
         private void PdfGenerate()
         {
-            threadsList = new List<Thread>();
+            counteOfChartr = 0;
+            threadsList = new List<Thread>();         
             images = new Dictionary<object, System.Drawing.Image>();
             parkings = new Dictionary<int, List<List<IdParking>>>();
             PDfTableDictionary = new Dictionary<object, List<PdfPTable>>();
@@ -143,20 +136,30 @@ namespace Generator_PDF.VM
 
                 if (item.operation == "Ilość wzbudzeń")
                 {
-                    Task.Run(async () =>
+                                           Task.Run(async () =>
                     {
                         threadsList.Add(new Thread(ChartSelect.TheSumOfVehiclesInMonth) { Name = "2" });
                         await connectionSql.numberVehicleGroupBy(idParkings, GroupBy.MONTH, 2);
                     });
-                }
+                    }
+                 
+            
 
                 if (item.operation == "Ilość wzbudzeń procentowe")
                 {
-                    Task.Run(async () =>
+                    try
                     {
-                        threadsList.Add(new Thread(ChartSelect.TheSumOfVehiclesInMonthPercent) { Name = "3" });
-                        await connectionSql.numberVehicleGroupBy(idParkings, GroupBy.MONTH, 3);
-                    });
+                        Task.Run(async () =>
+                        {
+
+                            threadsList.Add(new Thread(ChartSelect.TheSumOfVehiclesInMonthPercent) { Name = "3" });
+                            await connectionSql.numberVehicleGroupBy(idParkings, GroupBy.MONTH, 3);
+                        });
+                    }
+                    catch(MySql.Data.MySqlClient.MySqlException e)
+                    {
+                        MessageBox.Show(e.ToString());
+                    }
                 }
                 if(item.operation == "Ilośd wzbudzeń na parkingu w danym miesiącu")
                 {
@@ -210,7 +213,7 @@ namespace Generator_PDF.VM
             //}
         }
 
-        public static void startTask(Thread thread)
+        public static void StartTask(Thread thread)
         {
             thread.SetApartmentState(ApartmentState.STA);
             thread.IsBackground = true;
@@ -220,9 +223,12 @@ namespace Generator_PDF.VM
 
         public static void OnAddListParkings(int key, List<List<IdParking>> idParkings, ListIdParking imageArgs)
         {
+
             parkings.Add(key, idParkings);
-            startTask(threadsList.Find(x => x.Name == $"{key}"));
-          
+            StartTask(threadsList.Find(x => x.Name == $"{key}"));
+
+
+
 
         }
 
@@ -231,7 +237,7 @@ namespace Generator_PDF.VM
             images.Add(chart,image);
         }
 
-        public static void OnAddCurrentDevice(ObservableCollection<IdParking> CarParkss, CarParksArgs carParksArgs)
+        public static void OnAddCurrentCarParksObservableCollection(ObservableCollection<IdParking> CarParkss, CarParksArgs carParksArgs)
         {
             idParkings = CarParkss.ToList();
             ShowWindow();
@@ -248,7 +254,7 @@ namespace Generator_PDF.VM
 
 
 
-        private void RemoveOperation()
+        public void RemoveOperation()
         {
 
 
@@ -256,7 +262,7 @@ namespace Generator_PDF.VM
                 operationsListBox.Remove(RemoveOperationListBox());
         }
 
-        private void AddOperation()
+        public void AddOperation()
         {
             if (SelectedOperationListBox() != null)
                 operationsListBox.Add(SelectedOperationListBox());
