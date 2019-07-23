@@ -82,11 +82,14 @@ namespace Generator_PDF.VM
 
         private void Connection()
         {
+            
             connectionMy = ConnectionMySql.CreateOrGetConnectionClass();
             connectionMy.Server = textIp;
             connectionMy.Database = textDataBase;
             connectionMy.User = textLog;
             connectionMy.Password = GetPassowrd();
+            connectionMy.SetLoginParameters();
+
             try
             {
                 connectionMy.TestConnect();

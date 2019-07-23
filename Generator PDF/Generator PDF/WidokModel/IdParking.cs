@@ -10,11 +10,11 @@ namespace Generator_PDF.VM
     {
         public int idParking { get; set; }
         public string name { get; set; }
-        public int GrupuByTime { get; set; }
+        public int month { get; set; }
 
-        public int Year { get; set; }
+        public int year { get; set; }
 
-        public int GrubByInEachHour { get; set; }
+        public int hours { get; set; }
         public double count { get; set; }
     }
 }

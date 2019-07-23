@@ -1,21 +1,16 @@
 ﻿using Generator_PDF.VM;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Image = iTextSharp.text.Image;
 using Separator = LiveCharts.Wpf.Separator;
+
 
 namespace Generator_PDF.GenerateChart
 {
@@ -23,69 +18,133 @@ namespace Generator_PDF.GenerateChart
     {
         public CartesianChart chart;
 
+        protected int numberOfMonths = ((MVGeneratePDF.availableTo.Value.Year - MVGeneratePDF.availableFrom.Value.Year) * 12) + MVGeneratePDF.availableTo.Value.Month - MVGeneratePDF.availableFrom.Value.Month;
 
         System.Drawing.Bitmap imageChart = null;
 
         public abstract SeriesCollection GeneerateSeries();
 
-        public virtual Axis SetAxisX()
-        {
-            return new Axis()
-            {
-                ShowLabels = false,
-                Foreground = System.Windows.Media.Brushes.IndianRed,
-                FontSize = 20
-            };
-        }
+
+
 
 
         public virtual void GeneerateChart()
         {
             SetChartParameters();
-            chart.AxisX.Add(SetAxisX());
-
-
+            chart.AxisX.Add(SetAxisX(Format.Normal));
+            chart.AxisY.Add(SetAxisY(Format.Normal));
             TakeTheChart();
         }
 
 
 
+        public virtual Axis SetAxisX(Format format)
+        {
+            switch (format)
+            {
+                case Format.Normal:
+                    {
+                        return new Axis()
+                        {
+
+                            Foreground = System.Windows.Media.Brushes.Black,
+                            FontSize = 15,
+                            IsMerged = false,
+                            Separator = new Separator
+                            {
+                                Step = 1,
+                                IsEnabled = false,
+                                StrokeThickness = 0,
+                                StrokeDashArray = new System.Windows.Media.DoubleCollection(0),
+                                Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(64, 79, 86))
+                            }
+                        };
+                    }
+                case Format.Percent:
+                    {
+                        return new Axis()
+                        {
+
+                            LabelFormatter = value => value.ToString("N"),
+                            Foreground = System.Windows.Media.Brushes.Black,
+                            FontSize = 15,
+                            IsMerged = false,
+                            Separator = new Separator
+                            {
+                                IsEnabled = false,
+                                StrokeThickness = 0,
+                                StrokeDashArray = new System.Windows.Media.DoubleCollection(0),
+                                Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(64, 79, 86))
+                            }
+                        };
+                    }
+                default:
+                    {
+                        return null;
+                    }
+            }
+        }
+
+
+        public virtual Axis SetAxisY(Format format)
+        {
+            switch (format)
+            {
+                case Format.Normal:
+                    {
+                        return new Axis
+                        {
+
+                         //   LabelFormatter = value => string.Format("{0:0.00}%", value),
+                            Foreground = Brushes.Black,
+                            FontSize = 15,
+                            MinValue = 0,
+                            IsMerged = false,
+                            Separator = new Separator
+                            {
+      //                          Step = 1.5,
+                                StrokeThickness = 1.5,
+                                StrokeDashArray = new System.Windows.Media.DoubleCollection(4),
+                                Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(64, 79, 86))
+                            }
+
+                        };
+                    }
+                case Format.Percent:
+                    {
+                        return new Axis
+                        {
+
+                            LabelFormatter = value => string.Format("{0:0.00}%", value),
+                            Foreground = Brushes.Black,
+                            FontSize = 15,
+                            IsMerged = false,
+
+                            Separator = new Separator
+                            {
+
+                         //       StrokeThickness = 1.5,
+                                StrokeDashArray = new System.Windows.Media.DoubleCollection(4),
+                                Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(64, 79, 86))
+                            }
+
+
+                        };
+                    }
+                default:
+                    {
+                        return null;
+                    }
+
+            }
+        }
         public void SetChartParameters()
         {
             chart.DisableAnimations = true;
-
-            chart.Width = 600;
-            chart.Height = 300;
+            chart.Width = 720;
+            chart.Height = 360;
             chart.Series = GeneerateSeries();
-          
 
-            if (this is LineChart)
-            {
-                chart.AxisY.Add(new Axis
-                {
-
-                    LabelFormatter = value => string.Format("{0:0.00}%", value),
-                    Foreground = Brushes.Black,
-                    FontSize = 15,
-                    Separator = new Separator() { Stroke = Brushes.Black },
-                    Title = "% Pojazdów"
-
-                });
-            }
-            else
-            {
-
-                chart.AxisY.Add(new Axis
-                {
-
-
-                    Foreground = Brushes.Black,
-                    FontSize = 15,
-                    Separator = new Separator() { Stroke = Brushes.Black },
-
-
-                });
-            }
             if (this is SumOfParkedInEachMonthPercent)
             {
 
@@ -109,11 +168,10 @@ namespace Generator_PDF.GenerateChart
             viewbox.Child = chart;
             viewbox.Measure(chart.RenderSize);
             viewbox.Arrange(new Rect(new Point(0, 0), chart.RenderSize));
-            chart.Update(true, true); //force chart redraw
+            chart.Update(true, true);
             viewbox.UpdateLayout();
-            //      GenerateTAble(chart);
             SaveToPng(chart, chart.Tag.ToString());
-            //png file was created at the root directory.
+
         }
 
         public void SaveToPng(FrameworkElement visual, string fileName)
@@ -137,47 +195,64 @@ namespace Generator_PDF.GenerateChart
                 variableOfImage.Tag = $"{fileName}";
             }
             imageChart = variableOfImage;
-            OnAddCurrentCarParks(imageChart,this);
-       
+            OnAddCurrentCarParks(imageChart, this);
+
 
         }
 
-
-        public double[] SortByCount(List<IdParking> idParkings)
+        public void FillMissingMonths(List<IdParking> months)
         {
-            double[] sorted = new double[48];
-            int count = idParkings.Count;
+            int numberOfMonths = ((MVGeneratePDF.availableTo.Value.Year - MVGeneratePDF.availableFrom.Value.Year) * 12) + MVGeneratePDF.availableTo.Value.Month - MVGeneratePDF.availableFrom.Value.Month;
+            for (int i = 0; i < numberOfMonths; i++)
+            {
+                if (MVGeneratePDF.availableFrom.Value.Month != months[0].month && MVGeneratePDF.availableFrom.Value.Year != months[0].year)
+                {
+                    months.Insert(0, new IdParking() { month = MVGeneratePDF.availableFrom.Value.Month, count = 0, year = MVGeneratePDF.availableFrom.Value.Year });
+                }
+                else if (months[i - 1].month != months[i].month - 1 && months[i].month != 12)
+                {
+                    months.Insert(i, new IdParking() { month = months[i - 1].month + 1, count = 0, year = months[i - 1].year });
+                }
+                else if (months[i - 1].month != months[i].month - 1 && months[i - 1].month == 12)
+                {
+                    months.Insert(i, new IdParking() { month = 1, count = 0, year = months[i - 1].year + 1 });
+                }
+            }
+        }
+        public List<IdParking> SortByCount(List<IdParking> idParkings)
+        {
             for (int i = 0; i <= 23; i++)
             {
-                if (count != 24)
+                if (!idParkings.Exists(x => x.hours == i))
                 {
-                    sorted[i] = 0;
-                    count++;
+                    idParkings.Add(new IdParking() { hours = i, count = 0 });
+                }
+            }
+            int counter = 1;
+            while (idParkings.Count != 48)
+            {
+                if (counter < 24)
+                {
+                    if (idParkings[counter].count == idParkings[counter - 1].count)
+                    {
+                        var help = idParkings[counter - 1];
+                        idParkings[counter - 1] = idParkings[counter];
+                        idParkings[counter] = help;
+                    }
                 }
                 else
                 {
-                    sorted[i] = idParkings[i - (count - idParkings.Count)].count;
-                }
-            }
-            int counter = 23;
-            for (int i = 0; i < sorted.Length; i++)
-            {
-                if (i > 0)
-                {
-                    if (sorted[i] == sorted[i - 1] && i < idParkings.Count)
+                    for (int i = 23; i >= 0; i--)
                     {
-                        double help = sorted[i];
-                        sorted[i] = sorted[i + 1];
-                        sorted[i + 1] = help;
-                    }
-                    else if (i >= sorted.Length / 2)
-                    {
-                        sorted[i] = sorted[counter--];
+                        idParkings.Add(idParkings.ElementAt(i));
                     }
                 }
+                counter++;
             }
-            return sorted;
+            return idParkings;
         }
+
+
 
 
 
@@ -188,10 +263,10 @@ namespace Generator_PDF.GenerateChart
         {
             if (AddCurrentImage != null)
             {
-                AddCurrentImage(imageChart,this, new ImageArgs() { image = imagechar });
+                AddCurrentImage(imageChart, this, new ImageArgs() { image = imagechar });
             }
         }
 
     }
-   
+
 }

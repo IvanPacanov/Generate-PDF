@@ -10,10 +10,7 @@ namespace Generator_PDF.GenerateChart
 {
    static class ChartSelect
     {
-        
-
-
-        static public void TheSumOfVehiclesInEachMonthByHours()
+        static public void HourlySummaryForEachParkingByMonth()
         {
           
             string name = null;
@@ -21,13 +18,13 @@ namespace Generator_PDF.GenerateChart
 
             foreach (var item in MVGeneratePDF.parkings[7])
             {
-                if (CreatePDF.minMont > item.Min(x => x.GrupuByTime))
+                if (CreatePDF.minMont > item.Min(x => x.month))
                 {
-                    CreatePDF.minMont = item.Min(x => x.GrupuByTime);
+                    CreatePDF.minMont = item.Min(x => x.month);
                 }
-                if (CreatePDF.maxMont < item.Max(x => x.GrupuByTime))
+                if (CreatePDF.maxMont < item.Max(x => x.month))
                 {
-                    CreatePDF.maxMont = item.Max(x => x.GrupuByTime);
+                    CreatePDF.maxMont = item.Max(x => x.month);
                 }
             }
        
@@ -36,22 +33,22 @@ namespace Generator_PDF.GenerateChart
             {
 
                 List<List<IdParking>> months = new List<List<IdParking>>();
-                var monthsalla = parking.GroupBy(x => x.Year);
+                var monthsalla = parking.GroupBy(x => x.year);
 
                 foreach (var item in monthsalla)
                 {
 
-                    var monthss = item.GroupBy(g => g.GrupuByTime).OrderBy(g => g.Key).SelectMany(g => g.OrderByDescending(x => x.GrupuByTime)).ToList();
+                    var monthss = item.GroupBy(g => g.month).OrderBy(g => g.Key).SelectMany(g => g.OrderByDescending(x => x.month)).ToList();
 
-                    var montha = monthss.GroupBy(x => x.GrupuByTime);
-                    int a = 10;
+                    var montha = monthss.GroupBy(x => x.month);
+             
                     foreach (var itemm in montha)
                     {
 
                      //   months.Add(itemm.ToList());
 
                 
-                ListSumByHourEachMonth zz = new ListSumByHourEachMonth( itemm.ToList() ,"7");
+                LineSumByHourEachMonth zz = new LineSumByHourEachMonth( itemm.ToList() ,"7");
                 zz.GeneerateChart();
                 MVGeneratePDF.PDfTableDictionary.Add(zz, zz.pdfTablelist);
                 name = parking[0].name;
@@ -63,14 +60,14 @@ namespace Generator_PDF.GenerateChart
 
         }
 
-        static public void TheSumOfVehiclesInHoursEachParking()
+        static public void HourlySummaryForEachParking()
         {
             double key = 6;
                
          
             foreach (var parking in MVGeneratePDF.parkings[6])
             {
-                LineSumByHour z = new LineSumByHour(new List<List<IdParking>>() { parking },"6");
+                LineSumByHour z = new LineSumByHour(parking, "6");
                 z.GeneerateChart();
                 MVGeneratePDF.PDfTableDictionary.Add(z, z.pdfTablelist);
                 key = key+key;
@@ -80,8 +77,9 @@ namespace Generator_PDF.GenerateChart
         }
 
 
-        static public void TheSumOfVehiclesInHour()
+        static public void HourlySummary()
         {
+
             LineChart z = new LineChart(MVGeneratePDF.parkings[5],"5");
             ChangeToPercent(MVGeneratePDF.parkings[5]);
             z.GeneerateChart();
@@ -108,9 +106,9 @@ namespace Generator_PDF.GenerateChart
         }
         static public void TheSumOfVehicles()
         {
-            SumOfParked z = new SumOfParked(MVGeneratePDF.parkings[1]);
+            SumOfParked z = new SumOfParked(MVGeneratePDF.parkings[1],1);
             z.GeneerateChart();
-            MVGeneratePDF.PDfTableDictionary.Add(z, new List<PdfPTable>() { TableCreate.SumOfVehicles(MVGeneratePDF.parkings[1][0]) });
+            MVGeneratePDF.PDfTableDictionary.Add(z, z.pdfTablelist );
             MVGeneratePDF.counteOfChartr++;
 
         }
@@ -126,16 +124,20 @@ namespace Generator_PDF.GenerateChart
                 }
             }
         }
-        public static void ChangeToPercents(List<IdParking> idParkings)
+        public static List<IdParking> ChangeToPercents(List<IdParking> idParkings)
         {
-          
-                double total = idParkings.Sum(x => x.count);
+            List<IdParking> percent = new List<IdParking>();
+                  double total = idParkings.Sum(x => x.count);
                 foreach (var park in idParkings)
                 {
-                    park.count = Math.Round(((park.count / total) * 100), 2);
-                }
+                percent.Add(new IdParking() { count = Math.Round(((park.count / total) * 100), 2), name=park.name, hours=park.hours, month=park.hours, year=park.year });
            
+                    
+                }
+            return percent;
         }
+
+  
 
         internal static void TheSumOfVehiclesInMonthPercentOnCarPark()
         {

@@ -18,7 +18,12 @@ namespace Generator_PDF
     {
        public static int minMont =99;
         internal static int maxMont=0;
-
+        public static Phrase FontPolish(string stringToPdf)
+        {
+            BaseFont baseFont = BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true);
+            iTextSharp.text.Font times = new iTextSharp.text.Font(baseFont, 10, iTextSharp.text.Font.ITALIC);
+            return new Paragraph(stringToPdf,times);
+        }
         public static void GeneratePDF(Dictionary<object, System.Drawing.Image> images, Dictionary<object, List<PdfPTable>> pdfPTables) //, List<IdParking> listcarParks, List<List<IdParking>> listListCarParks, List<List<IdParking>> listListCarParksPercent)
         {
             int minMontcounter=minMont;
@@ -28,6 +33,7 @@ namespace Generator_PDF
             CreateChapter chapter = null;
           
             Document document = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
+           
             List<System.Drawing.Image> vs = new List<System.Drawing.Image>();
             Dictionary<object, System.Drawing.Image> imagesbyMonth = images;
 
@@ -41,9 +47,11 @@ namespace Generator_PDF
 
                 if (!vs.Contains(image.Value))
                 {
-                  
-                    iTextSharp.text.Image pic = iTextSharp.text.Image.GetInstance(image.Value, System.Drawing.Imaging.ImageFormat.Jpeg);
 
+                    try
+                    {
+                        iTextSharp.text.Image pic = iTextSharp.text.Image.GetInstance(image.Value, System.Drawing.Imaging.ImageFormat.Jpeg);
+                
                     if (pic.Height > pic.Width)
                     {
                         //Maximum height is 800 pixels.
@@ -141,7 +149,7 @@ namespace Generator_PDF
                         document.Add(chapter4.GetSection());
                     }      
                     
-                    if (image.Key is ListSumByHourEachMonth)
+                    if (image.Key is LineSumByHourEachMonth)
                     {
                        if(minMont>maxMont+1)
                         {
@@ -163,19 +171,25 @@ namespace Generator_PDF
                         document.Add(chapter4.GetSection());
                         minMont++;
                     }
+                        }
+                    catch(Exception e)
+                    {
+                        MessageBox.Show(e.ToString());
+                    }
                 }
                 document.NewPage();
             }     
             try
             {
                 document.Close();
+                MessageBox.Show("PDF Wygenerowany");
             }
             catch
             {
                 MessageBox.Show("Wystąpił problem z zamknięciem pliku PDF");
             }
 
-            MessageBox.Show("PDF Wygenerowany");
+           
         }
         public static void Set(KeyValuePair<object, System.Drawing.Image> item, CreateChapter chapter, Dictionary<object, List<PdfPTable>> pdfPTables)
         {

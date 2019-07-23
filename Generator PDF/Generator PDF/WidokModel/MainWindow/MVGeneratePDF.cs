@@ -105,12 +105,18 @@ namespace Generator_PDF.VM
             PDfTableDictionary = new Dictionary<object, List<PdfPTable>>();
             try
             {
+
                 connectionSql.ToTime = availableTo.ConvertToUnixTimestamp();
                 connectionSql.FromTime = availableFrom.ConvertToUnixTimestamp();
+                if ((((availableTo.Value.Year - availableFrom.Value.Year) * 12) + availableTo.Value.Month - availableFrom.Value.Month) >= 12)
+                {
+                    throw new Exception("NIe można wygenerować raportu większego niż 1 rok");
+                }
             }
+
             catch
             {
-                MessageBox.Show("Nie wybrano daty");
+                MessageBox.Show("Nie wybrano daty, lub data jest większa niż 1 rok");
                 return;
             }
 
@@ -131,7 +137,7 @@ namespace Generator_PDF.VM
                     {
                         threadsList.Add(new Thread(ChartSelect.TheSumOfVehicles) { Name = "1" });
                         await connectionSql.numberVehicle(idParkings, 1);
-                    });
+                    }).Wait();
                 }
 
                 if (item.operation == "Ilość wzbudzeń")
@@ -140,7 +146,7 @@ namespace Generator_PDF.VM
                     {
                         threadsList.Add(new Thread(ChartSelect.TheSumOfVehiclesInMonth) { Name = "2" });
                         await connectionSql.numberVehicleGroupBy(idParkings, GroupBy.MONTH, 2);
-                    });
+                    }).Wait();
                     }
                  
             
@@ -154,7 +160,7 @@ namespace Generator_PDF.VM
 
                             threadsList.Add(new Thread(ChartSelect.TheSumOfVehiclesInMonthPercent) { Name = "3" });
                             await connectionSql.numberVehicleGroupBy(idParkings, GroupBy.MONTH, 3);
-                        });
+                        }).Wait();
                     }
                     catch(MySql.Data.MySqlClient.MySqlException e)
                     {
@@ -167,34 +173,34 @@ namespace Generator_PDF.VM
                     {
                         threadsList.Add(new Thread(ChartSelect.TheSumOfVehiclesInMonthPercentOnCarPark) { Name = "4" });
                         await connectionSql.numberVehicleGroupBy(idParkings, GroupBy.MONTH, 4);
-                    });
+                    }).Wait();
                 }
 
                 if (item.operation == "Zestawienie godzinowe")
                 {
                     Task.Run(async () =>
                     {
-                        threadsList.Add(new Thread(ChartSelect.TheSumOfVehiclesInHour) { Name = "5" });
+                        threadsList.Add(new Thread(ChartSelect.HourlySummary) { Name = "5" });
                         await connectionSql.numberVehicleGroupBy(idParkings, GroupBy.HOUR, 5);
-                    });
+                    }).Wait();
 
                 }
                 if (item.operation == "Zestawienie godzinowe dla każdego parkingu")
                 {
                     Task.Run(async () =>
                     {
-                        threadsList.Add(new Thread(ChartSelect.TheSumOfVehiclesInHoursEachParking) { Name = "6" });
+                        threadsList.Add(new Thread(ChartSelect.HourlySummaryForEachParking) { Name = "6" });
                         await connectionSql.numberVehicleGroupBy(idParkings, GroupBy.HOUR, 6);
-                    });
+                    }).Wait();
 
                 }
                 if (item.operation == "Zestawienie godzinowe dla każdego parkingu wzgledem miesięcy")
                 {
                     Task.Run(async () =>
                     {
-                        threadsList.Add(new Thread(ChartSelect.TheSumOfVehiclesInEachMonthByHours) { Name = "7" });
+                        threadsList.Add(new Thread(ChartSelect.HourlySummaryForEachParkingByMonth) { Name = "7" });
                         await connectionSql.numberVehicleGroupByInEachHoursOfMonth(idParkings, 7);
-                                     });
+                                     }).Wait();
 
                 }
 
@@ -234,7 +240,14 @@ namespace Generator_PDF.VM
 
         public static void OnAddCurrentImage(System.Drawing.Image image, AbstractChart chart, ImageArgs imageArgs)
         {
-            images.Add(chart,image);
+            try
+            {
+                images.Add(chart, image);
+            }
+            catch
+            {
+
+            }
         }
 
         public static void OnAddCurrentCarParksObservableCollection(ObservableCollection<IdParking> CarParkss, CarParksArgs carParksArgs)

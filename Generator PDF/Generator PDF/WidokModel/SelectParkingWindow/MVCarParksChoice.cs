@@ -15,7 +15,7 @@ namespace Generator_PDF.VM
     class MVCarParksChoice : BaseViewClass
     {
 
-            public Func<IdParking> SelectedCarParksListBox { get; set;}
+        public Func<IdParking> SelectedCarParksListBox { get; set;}
 
         public Func<IdParking> RemoveCarParksListBox { get; set; }
         

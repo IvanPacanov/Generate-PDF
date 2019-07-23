@@ -63,10 +63,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GenerateChart\LineSumByHour.cs" />
-    <Compile Include="GenerateChart\ListSumByHourEachMonth.cs" />
-    <Compile Include="GenerateChart\SumOfParkedByMonthPercent.cs" />
-    <Compile Include="MySqlClass\RecordFromDataBase.cs" />
+    <Compile Include="Format.cs" />
+    <Compile Include="GenerateChart\Enum\FirstRow.cs" />
+    <Compile Include="GenerateChart\Interface\ITable.cs" />
+    <Compile Include="GenerateChart\Line\LineSumByHour.cs" />
+    <Compile Include="GenerateChart\Line\LineSumByHourEachMonth.cs" />
+    <Compile Include="GenerateChart\Bar\SumOfParkedByMonthPercent.cs" />
     <Compile Include="MySqlClass\struckTest.cs" />
     <Compile Include="PDF\IChapterAndSectionMethod.cs" />
     <Compile Include="PDF\CreateChapter.cs" />
@@ -74,36 +76,35 @@
     <Compile Include="DateTimeConvert\TimeConvert.cs" />
     <Compile Include="GenerateChart\AbstractChart.cs" />
     <Compile Include="GenerateChart\ChartSelect.cs" />
-    <Compile Include="GenerateChart\GroupBy.cs" />
-    <Compile Include="GenerateChart\ImageArgs.cs" />
-    <Compile Include="GenerateChart\LineChart.cs" />
+    <Compile Include="GenerateChart\Enum\GroupBy.cs" />
+    <Compile Include="PDF\ImageArgs.cs" />
+    <Compile Include="GenerateChart\Line\LineChart.cs" />
     <Compile Include="GenerateChart\ListIdParking.cs" />
-    <Compile Include="GenerateChart\SelectCountParking.cs" />
-    <Compile Include="GenerateChart\SumOfParked.cs" />
-    <Compile Include="GenerateChart\SumOfParkedByMonth.cs" />
-    <Compile Include="GenerateChart\SumOfVehiclesInMonthOnCarPark.cs" />
-    <Compile Include="GenerateChart\SumOfParkedInEachMonthPercent.cs" />
-    <Compile Include="GenerateChart\SumOfParkedInMonth.cs" />
-    <Compile Include="GenerateChart\TableCreate.cs" />
+    <Compile Include="GenerateChart\Enum\SelectCountParking.cs" />
+    <Compile Include="GenerateChart\Bar\SumOfParked.cs" />
+    <Compile Include="GenerateChart\Bar\SumOfParkedByMonth.cs" />
+    <Compile Include="GenerateChart\Bar\SumOfVehiclesInMonthOnCarPark.cs" />
+    <Compile Include="GenerateChart\Bar\SumOfParkedInEachMonthPercent.cs" />
+    <Compile Include="GenerateChart\Table\TableCreate.cs" />
     <Compile Include="MySqlClass\ConnectionMySql.cs" />
     <Compile Include="MySqlClass\ConnectionMySqlArgs.cs" />
-    <Compile Include="NumberOfCarPark.xaml.cs">
+    <Compile Include="Widok\NumberOfCarPark.xaml.cs">
       <DependentUpon>NumberOfCarPark.xaml</DependentUpon>
     </Compile>
     <Compile Include="PDF\CreateSection.cs" />
-    <Compile Include="VM\BaseViewClass.cs" />
-    <Compile Include="VM\SelectParkingWindow\CarParksArgs.cs" />
-    <Compile Include="VM\EnumMonth.cs" />
-    <Compile Include="VM\SelectParkingWindow\MVCarParksChoice.cs" />
-    <Compile Include="VM\Operations\GeneratePossiblyOperation.cs" />
-    <Compile Include="VM\IdParking.cs" />
-    <Compile Include="VM\MainWindow\MVGeneratePDF.cs" />
-    <Compile Include="VM\LoginWindow\MVLogInDataBase.cs" />
-    <Compile Include="GeneratePDF.xaml.cs">
+    <Compile Include="WidokModel\BaseViewClass.cs" />
+    <Compile Include="WidokModel\SelectParkingWindow\CarParksArgs.cs" />
+    <Compile Include="WidokModel\EnumMonth.cs" />
+    <Compile Include="WidokModel\SelectParkingWindow\MVCarParksChoice.cs" />
+    <Compile Include="WidokModel\Operations\GeneratePossiblyOperation.cs" />
+    <Compile Include="WidokModel\IdParking.cs" />
+    <Compile Include="WidokModel\MainWindow\MVGeneratePDF.cs" />
+    <Compile Include="WidokModel\LoginWindow\MVLogInDataBase.cs" />
+    <Compile Include="Widok\GeneratePDF.xaml.cs">
       <DependentUpon>GeneratePDF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VM\Operations\Operation.cs" />
-    <Page Include="LogIn.xaml">
+    <Compile Include="WidokModel\Operations\Operation.cs" />
+    <Page Include="Widok\LogIn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -111,14 +112,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LogIn.xaml.cs">
+    <Compile Include="Widok\LogIn.xaml.cs">
       <DependentUpon>LogIn.xaml</DependentUpon>
     </Compile>
-    <Page Include="GeneratePDF.xaml">
+    <Page Include="Widok\GeneratePDF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NumberOfCarPark.xaml">
+    <Page Include="Widok\NumberOfCarPark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -165,9 +165,6 @@ C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\LiveCharts.Wpf.dll
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\MaterialDesignColors.dll
 C:\Users\mati\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\MaterialDesignThemes.Wpf.dll
-C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\LogIn.g.cs
-C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\GeneratePDF.g.cs
-C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\NumberOfCarPark.g.cs
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\App.g.cs
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF_MarkupCompile.cache
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF_MarkupCompile.lref
@@ -208,9 +205,6 @@ C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\WPFToolkit.dll
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\System.Windows.Controls.DataVisualization.Toolkit.dll
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\App.baml
-C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\LogIn.baml
-C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\GeneratePDF.baml
-C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\NumberOfCarPark.baml
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.g.resources
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator_PDF.Properties.Resources.resources
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.csproj.GenerateResource.cache
@@ -219,3 +213,9 @@ C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.exe
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.pdb
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Generator PDF.csprojAssemblyReference.cache
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Widok\LogIn.g.cs
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Widok\GeneratePDF.g.cs
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Widok\NumberOfCarPark.g.cs
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Widok\LogIn.baml
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Widok\GeneratePDF.baml
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Widok\NumberOfCarPark.baml
