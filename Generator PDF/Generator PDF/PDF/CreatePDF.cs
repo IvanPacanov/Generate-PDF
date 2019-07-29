@@ -22,69 +22,39 @@ namespace Generator_PDF
     static class CreatePDF
     {
         static List<Image> vs = new List<Image>();
-      
-
-        public static Paragraph FontPolish(string stringToPdf)
-        {
-            BaseFont baseFont = BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true);
-            iTextSharp.text.Font times = new iTextSharp.text.Font(baseFont, 10, iTextSharp.text.Font.ITALIC);
-            return new Paragraph(stringToPdf, times);
-        }
-       
-        private static CreateChapter AddSubSection(CreateChapter chapter, string topicSubSection, string titleChart, Image pic, KeyValuePair<object, System.Drawing.Image> image, Dictionary<object, List<PdfPTable>> pdfPTables)
-        {
-            Paragraph elements = FontPolish(topicSubSection);
-            elements.IndentationLeft = 40f;
-            chapter.AddSubSection(elements, 3);
-            chapter.createSubSection.AddTitleCHart(FontTitleChart(titleChart),pic.Width);
-            chapter.createSubSection.AddImage(pic);
-            vs.Add(ConvertImage(image.Value));
-            Set(image, chapter.createSubSection, pdfPTables);
-            return chapter;
-        }
-
-        private static Image ConvertImage(System.Drawing.Image image)
-        {
-            return Image.GetInstance(image, System.Drawing.Imaging.ImageFormat.Jpeg);
-        }
         public static void GeneratePDF(Dictionary<object, System.Drawing.Image> images, Dictionary<object, List<PdfPTable>> pdfPTables) //, List<IdParking> listcarParks, List<List<IdParking>> listListCarParks, List<List<IdParking>> listListCarParksPercent)
-        {                      
-           
+        {
+
 
             using (Document document = new Document(PageSize.A4, 30f, 20f, 55f, 80f))
             {
-
                 CreateChapter chapter = null;
-                Dictionary<object, System.Drawing.Image> imagesbyMonth = images;              
+                Dictionary<object, System.Drawing.Image> imagesbyMonth = images;
                 PdfWriter pdfWriter = CreateOrChooseFile(document);
                 pdfWriter.PageEvent = new PdfPageEvent();
-                document.Open();               
+                document.Open();
                 bool sumOfParkedByMonth = false;
                 bool lineChart = false;
                 string name = null;
-             
-               CreateTableOfContents.AddTableOfContent(document, images, pdfWriter);
+                CreateTableOfContents.AddTableOfContent(document, images, pdfWriter);
                 string nameParking = String.Empty;
                 string[] chwilowy = null;
                 int chapterNumber = 1;
                 foreach (var image in images)
                 {
-                   
                     try
                     {
                         Image pic = Image.GetInstance(image.Value, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-
                         if (pic.Height > pic.Width)
                         {
-                           
+
                             float percentage = 0.0f;
                             percentage = 700 / pic.Height;
                             pic.ScalePercent(percentage * 80);
                         }
                         else
                         {
-                           
+
                             float percentage = 0.0f;
                             percentage = 540 / pic.Width;
                             pic.ScalePercent(percentage * 80);
@@ -98,8 +68,6 @@ namespace Generator_PDF
                             chapter = null;
                             chapterNumber++;
                         }
-
-
                         if (image.Key is SumOfParkedByMonth)
                         {
                             sumOfParkedByMonth = true;
@@ -112,12 +80,9 @@ namespace Generator_PDF
                             chapter = AddChapterSectionAndSubSection("Ilosc wzbudzeń w podziale na poszczególne miesiące.", $"Porównanie ilości wzbudzeń na Parkingu {nameParking} w danych miesiącach.", chwilowy[1], chapterNumber, "Porównanie parkingów", pic, image, pdfPTables);
                             document.Add(chapter.GetChapter());
                             chapterNumber++;
-
-                            //      document.NewPage();
                         }
                         if (image.Key is SumOfParkedByMonthPercent)
                         {
-
                             chwilowy = image.Value.Tag.ToString().Split(',');
 
                             if (sumOfParkedByMonth == false)
@@ -136,56 +101,35 @@ namespace Generator_PDF
                             {
                                 document.NewPage();
                                 document.Add(AddSubSection(chapter, chwilowy[1], "Procentowe porównanie parkingów", pic, image, pdfPTables).GetSubSection());
-                 
                             }
-
-
-
-
                         }
-
                         if (image.Key is SumOfVehiclesInMonthOnCarPark)
                         {
                             if (sumOfParkedByMonth == false)
                             {
-                               
                                 chwilowy = image.Value.Tag.ToString().Split(',');
                                 nameParking = null;
                                 for (int i = 2; i < chwilowy.Length; i++)
                                 {
                                     nameParking += $"{chwilowy[i]},";
                                 }
-                                chapter = AddChapterSectionAndSubSection("Ilosc wzbudzeń w podziale na poszczególne miesiące.", $"Ilość wzbudzeń na Parkingu {chwilowy[2]} w danych miesiacach", chwilowy[1] ,chapterNumber, chwilowy[2], pic, image, pdfPTables);
+                                chapter = AddChapterSectionAndSubSection("Ilosc wzbudzeń w podziale na poszczególne miesiące.", $"Ilość wzbudzeń na Parkingu {chwilowy[2]} w danych miesiacach", chwilowy[1], chapterNumber, chwilowy[2], pic, image, pdfPTables);
                                 document.Add(chapter.GetChapter());
                                 chapterNumber++;
-
                             }
                             else
                             {
-                        
                                 document.NewPage();
                                 chwilowy = image.Value.Tag.ToString().Split(',');
                                 document.Add(AddSectionAndSubSection(chapter, $"Ilość wzbudzeń na Parkingu {chwilowy[2]} w danych miesiacach", chwilowy[1], chwilowy[2], pic, image, pdfPTables).GetSection());
                             }
-
-
-
-
                         }
-
-
                         if (image.Key is SumOfParkedInEachMonthPercent)
                         {
-                            chwilowy = image.Value.Tag.ToString().Split(',');                          
-                           
-                                document.NewPage();
-                                document.Add(AddSubSection(chapter, chwilowy[1], $"{chwilowy[2]}-%", pic, image, pdfPTables).GetSubSection());
-                             
-
-
+                            chwilowy = image.Value.Tag.ToString().Split(',');
+                            document.NewPage();
+                            document.Add(AddSubSection(chapter, chwilowy[1], $"{chwilowy[2]}-%", pic, image, pdfPTables).GetSubSection());
                         }
-
-
                         if (image.Key is LineChart)
                         {
                             chapter = null;
@@ -197,28 +141,23 @@ namespace Generator_PDF
                                 nameParking += $"{chwilowy[i]},";
                             }
                             chapter = new CreateChapter(new Paragraph(FontPolish("Zestawienie godzinowe ilość wzbudzeń w całym okresie raportu - wartości procentowe.")), chapterNumber);
-                                 chapter.AddSection(FontPolish($"Porównanie ilości wzbudzeń na parkingach {nameParking}"), 2);
-                                                  chapter.AddTitleCHartToLineChart(new Paragraph(FontPolish("Porównanie %")),image.Value.Width);
-                            chapter.AddImageToLineChart(pic);                            
-                            vs.Add(ConvertImage(image.Value));                     
+                            chapter.AddSection(FontPolish($"Porównanie ilości wzbudzeń na parkingach {nameParking}"), 2);
+                            chapter.AddTitleCHartToLineChart(new Paragraph(FontPolish("Porównanie %")), image.Value.Width);
+                            chapter.AddImageToLineChart(pic);
+                            vs.Add(ConvertImage(image.Value));
                             document.Add(chapter.GetChapter());
                             chapterNumber++;
-
                         }
-
-
                         if (image.Key is LineSumByHour)
                         {
                             if (lineChart == false)
                             {
                                 chapter = new CreateChapter(new Paragraph(FontPolish("Zestawienie godzinowe ilość wzbudzeń w całym okresie raportu - wartości procentowe.")), chapterNumber);
-
                             }
                             document.NewPage();
-                            chwilowy = image.Value.Tag.ToString().Split(',');                      
+                            chwilowy = image.Value.Tag.ToString().Split(',');
                             document.Add(AddSectionBySetLine(chapter, chwilowy[1], $"{chwilowy[1]}-%", pic, image, pdfPTables).GetSection());
                         }
-
                         if (image.Key is LineSumByHourEachMonth)
                         {
                             chwilowy = image.Value.Tag.ToString().Split(',');
@@ -228,33 +167,25 @@ namespace Generator_PDF
                                 document.Add(chapter.GetChapter());
                                 name = chwilowy[1];
                                 chapterNumber++;
-
                             }
                             else if (name == chwilowy[1])
                             {
-                                document.NewPage();                                
+                                document.NewPage();
                                 document.Add(AddSubSectionBySetLine(chapter, $"{Enum.GetName(typeof(EnumMonth), int.Parse(chwilowy[2]))}", $"{chwilowy[1]} - %", pic, image, pdfPTables).GetSubSection());
-                                 name = chwilowy[1];
-
+                                name = chwilowy[1];
                             }
                             else if (name != chwilowy[1])
                             {
                                 document.NewPage();
                                 document.Add(AddSectionAndSubSectionBySetLine(chapter, chwilowy[1], $"{Enum.GetName(typeof(EnumMonth), int.Parse(chwilowy[2]))}", $"{chwilowy[1]} - %", pic, image, pdfPTables).GetSection());
                                 name = chwilowy[1];
-
                             }
-
-
-
                         }
                     }
                     catch (Exception e)
                     {
                         MessageBox.Show(e.ToString());
                     }
-
-                   
                 }
                 try
                 {
@@ -279,7 +210,7 @@ namespace Generator_PDF
                 {
                     foreach (var tab in table.Value)
                     {
-                       
+
                         chapter.AddTable(tab);
                         parkingNumber++;
                     }
@@ -297,7 +228,7 @@ namespace Generator_PDF
                 {
                     foreach (var tab in table.Value)
                     {
-                      
+
                         chapter.AddTable(tab);
                         parkingNumber++;
                     }
@@ -314,7 +245,7 @@ namespace Generator_PDF
                 if (table.Key == item.Key)
                 {
                     foreach (var tab in table.Value)
-                    {                       
+                    {
                         section.AddTable(tab);
                         parkingNumber++;
                     }
@@ -361,51 +292,51 @@ namespace Generator_PDF
         {
             Paragraph elements = new Paragraph();
             int parkingNumber = 0;
-            section.AddText(FontPolish("Dokładne Dane:"));      
-                foreach (var table in pdfPTables)
+            section.AddText(FontPolish("Dokładne Dane:"));
+            foreach (var table in pdfPTables)
+            {
+                if (table.Key == item.Key)
                 {
-                    if (table.Key == item.Key)
+                    foreach (var tab in table.Value)
                     {
-                        foreach (var tab in table.Value)
+                        if (parkingNumber == 0)
                         {
-                            if (parkingNumber == 0)
-                            {
-                                elements = FontPolish("Wartość liczbowa");
-                                elements.IndentationLeft = 10f;
-                                section.AddText(elements);
-                                elements = FontPolish("Godziny przed południem:");
-                                elements.IndentationLeft = 20f;
-                                section.AddText(elements);
-                            }
-
-                            if (parkingNumber == 1)
-                            {
-                                elements = FontPolish("Godziny po południu:");
-                                elements.IndentationLeft = 20f;
-                                section.AddText(elements);
-                            }
-
-                            if (parkingNumber == 2)
-                            {
-                                elements = FontPolish("Wartość procentowa");
-                                elements.IndentationLeft = 10f;
-                                section.AddText(elements);
-                                elements = FontPolish("Godziny przed południem:");
-                                elements.IndentationLeft = 20f;
-                                section.AddText(elements);
-                            }
-
-                            if (parkingNumber == 3)
-                            {
-                                elements = FontPolish("Godziny po południu:");
-                                elements.IndentationLeft = 20f;
-                                section.AddText(elements);
-                            }
-                            section.AddTable(tab);
-                            parkingNumber++;
+                            elements = FontPolish("Wartość liczbowa");
+                            elements.IndentationLeft = 10f;
+                            section.AddText(elements);
+                            elements = FontPolish("Godziny przed południem:");
+                            elements.IndentationLeft = 20f;
+                            section.AddText(elements);
                         }
+
+                        if (parkingNumber == 1)
+                        {
+                            elements = FontPolish("Godziny po południu:");
+                            elements.IndentationLeft = 20f;
+                            section.AddText(elements);
+                        }
+
+                        if (parkingNumber == 2)
+                        {
+                            elements = FontPolish("Wartość procentowa");
+                            elements.IndentationLeft = 10f;
+                            section.AddText(elements);
+                            elements = FontPolish("Godziny przed południem:");
+                            elements.IndentationLeft = 20f;
+                            section.AddText(elements);
+                        }
+
+                        if (parkingNumber == 3)
+                        {
+                            elements = FontPolish("Godziny po południu:");
+                            elements.IndentationLeft = 20f;
+                            section.AddText(elements);
+                        }
+                        section.AddTable(tab);
+                        parkingNumber++;
                     }
                 }
+            }
         }
         public static void SetLine(KeyValuePair<object, System.Drawing.Image> item, CreateSubSection section, Dictionary<object, List<PdfPTable>> pdfPTables)
         {
@@ -436,7 +367,7 @@ namespace Generator_PDF
                         }
 
                         if (parkingNumber == 2)
-                        {                           
+                        {
                             elements = FontPolish("Wartość procentowa");
                             elements.IndentationLeft = 10f;
                             section.AddText(elements);
@@ -458,7 +389,29 @@ namespace Generator_PDF
             }
         }
 
+        public static Paragraph FontPolish(string stringToPdf)
+        {
+            BaseFont baseFont = BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true);
+            iTextSharp.text.Font times = new iTextSharp.text.Font(baseFont, 10, iTextSharp.text.Font.ITALIC);
+            return new Paragraph(stringToPdf, times);
+        }
 
+        private static CreateChapter AddSubSection(CreateChapter chapter, string topicSubSection, string titleChart, Image pic, KeyValuePair<object, System.Drawing.Image> image, Dictionary<object, List<PdfPTable>> pdfPTables)
+        {
+            Paragraph elements = FontPolish(topicSubSection);
+            elements.IndentationLeft = 40f;
+            chapter.AddSubSection(elements, 3);
+            chapter.createSubSection.AddTitleCHart(FontTitleChart(titleChart), pic.Width);
+            chapter.createSubSection.AddImage(pic);
+            vs.Add(ConvertImage(image.Value));
+            Set(image, chapter.createSubSection, pdfPTables);
+            return chapter;
+        }
+
+        private static Image ConvertImage(System.Drawing.Image image)
+        {
+            return Image.GetInstance(image, System.Drawing.Imaging.ImageFormat.Jpeg);
+        }
         private static PdfWriter CreateOrChooseFile(Document document)
         {
             PdfWriter pdfWriter = null;
@@ -507,7 +460,7 @@ namespace Generator_PDF
             CreateChapter chapter = new CreateChapter(FontPolish(topic), chapterNumber);
             chapter.AddSection(FontPolish(topicSection), 2);
             chapter.AddSubSection(FontPolish(topisSubSection), 3);
-            chapter.createSubSection.AddTitleCHart(FontTitleChart(titleChart),pic.Width);
+            chapter.createSubSection.AddTitleCHart(FontTitleChart(titleChart), pic.Width);
             chapter.createSection.AddImage(pic);
             vs.Add(ConvertImage(image.Value));
             Set(image, chapter.createSection, pdfPTables);
@@ -529,13 +482,13 @@ namespace Generator_PDF
 
             chapter.AddSection(FontPolish(topicSection), 2);
             chapter.AddSubSection(FontPolish(topisSubSection), 3);
-            chapter.createSubSection.AddTitleCHart(FontTitleChart(titleChart),pic.Width);
+            chapter.createSubSection.AddTitleCHart(FontTitleChart(titleChart), pic.Width);
             chapter.createSection.AddImage(pic);
             vs.Add(ConvertImage(image.Value));
             Set(image, chapter.createSection, pdfPTables);
             return chapter;
         }
-        private static CreateChapter AddSectionAndSubSectionBySetLine(CreateChapter chapter, string topicSection,string topicSubSection, string titleChart, Image pic, KeyValuePair<object, System.Drawing.Image> image, Dictionary<object, List<PdfPTable>> pdfPTables)
+        private static CreateChapter AddSectionAndSubSectionBySetLine(CreateChapter chapter, string topicSection, string topicSubSection, string titleChart, Image pic, KeyValuePair<object, System.Drawing.Image> image, Dictionary<object, List<PdfPTable>> pdfPTables)
         {
 
             chapter.AddSection(FontPolish(topicSection), 2);
@@ -547,7 +500,7 @@ namespace Generator_PDF
             return chapter;
 
 
-                 }
+        }
         private static CreateChapter AddSectionBySetLine(CreateChapter chapter, string topicSection, string titleChart, Image pic, KeyValuePair<object, System.Drawing.Image> image, Dictionary<object, List<PdfPTable>> pdfPTables)
         {
 
@@ -565,17 +518,9 @@ namespace Generator_PDF
             chapter.AddSubSection(elements, 3);
             chapter.createSubSection.AddTitleCHart(FontTitleChart(titleChart), pic.Width);
             chapter.createSubSection.AddImage(pic);
-                vs.Add(ConvertImage(image.Value));
+            vs.Add(ConvertImage(image.Value));
             SetLine(image, chapter.createSubSection, pdfPTables);
             return chapter;
-
-
-          
         }
-      
-
     }
-
-
-
 }

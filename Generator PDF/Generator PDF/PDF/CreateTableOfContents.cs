@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace Generator_PDF.PDF
 {
-   public static class CreateTableOfContents
-    {        
+    public static class CreateTableOfContents
+    {
         public static void AddTableOfContent(Document document, Dictionary<object, System.Drawing.Image> images, PdfWriter writer)
         {
 
             Dictionary<object, System.Drawing.Image> imagesbyMonth = images;
 
-       
+
             bool cos1 = true;
             CreateChapter chapter = new CreateChapter(CreatePDF.FontPolish("Spis Treści"), 0, 3f);
             chapter.chapter.NumberDepth = 0;
@@ -41,7 +41,7 @@ namespace Generator_PDF.PDF
                 if (image.Key is SumOfParked)
                 {
                     chapter.AddToTableOfContents(AddHypperLink($"{numberChapert++}.          {chwilowy[1]}", page++, writer));
-                  
+
                 }
 
 
@@ -79,8 +79,8 @@ namespace Generator_PDF.PDF
                 if (image.Key is SumOfParkedInEachMonthPercent)
                 {
 
-                        chapter.AddToTableOfContents(AddHypperLink($"          {numberChapert}.{numberSection++}.{numberSubSection++}.    " + chwilowy[1], page++, writer));
-                
+                    chapter.AddToTableOfContents(AddHypperLink($"          {numberChapert}.{numberSection++}.{numberSubSection++}.    " + chwilowy[1], page++, writer));
+
 
                 }
 
@@ -148,7 +148,7 @@ namespace Generator_PDF.PDF
         public static Chunk FontPolishChunk(string stringToPdf)
         {
             BaseFont baseFont = BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true);
-            iTextSharp.text.Font times = new iTextSharp.text.Font(baseFont, 10, iTextSharp.text.Font.ITALIC);
+            Font times = new Font(baseFont, 10, Font.ITALIC);
             return new Chunk(stringToPdf, times);
         }
     }

@@ -43,8 +43,7 @@ namespace Generator_PDF.GenerateChart
             SeriesCollection seriesCollection = new SeriesCollection();
             ChartValues<double> chartValues = new ChartValues<double>();
 
-            listCarParks = SortByCount((ChartSelect.ChangeToPercents(listCarParks)).OrderBy(x=>x.count).ToList());
-      //      listCarParks = SortByCount(listCarParks.OrderBy(x => x.count).ToList());            
+            listCarParks = SortByCount((ChartSelect.ChangeToPercents(listCarParks)).OrderBy(x => x.count).ToList());
             foreach (var item in listCarParks)
             {
                 chartValues.Add(item.count);
@@ -62,7 +61,7 @@ namespace Generator_PDF.GenerateChart
 
             });
             return seriesCollection;
-        }     
+        }
 
         public void GenerateTable()
         {

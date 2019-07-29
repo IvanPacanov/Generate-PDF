@@ -47,7 +47,7 @@ namespace Generator_PDF.GenerateChart
                         return new Axis()
                         {
                             Title = null,
-                            Foreground = System.Windows.Media.Brushes.Black,
+                            Foreground = Brushes.Black,
                             FontSize = 15,
                             IsMerged = false,
                             Separator = new Separator
@@ -55,8 +55,8 @@ namespace Generator_PDF.GenerateChart
                                 Step = 1,
                                 IsEnabled = false,
                                 StrokeThickness = 0,
-                                StrokeDashArray = new System.Windows.Media.DoubleCollection(0),
-                                Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(64, 79, 86))
+                                StrokeDashArray = new DoubleCollection(0),
+                                Stroke = new SolidColorBrush(Color.FromRgb(64, 79, 86))
                             }
                         };
                     }
@@ -73,8 +73,8 @@ namespace Generator_PDF.GenerateChart
                             {
                                 IsEnabled = false,
                                 StrokeThickness = 0,
-                                StrokeDashArray = new System.Windows.Media.DoubleCollection(0),
-                                Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(64, 79, 86))
+                                StrokeDashArray = new DoubleCollection(0),
+                                Stroke = new SolidColorBrush(Color.FromRgb(64, 79, 86))
                             }
                         };
                     }
@@ -95,17 +95,16 @@ namespace Generator_PDF.GenerateChart
                         return new Axis
                         {
 
-                         //   LabelFormatter = value => string.Format("{0:0.00}%", value),
+
                             Foreground = Brushes.Black,
                             FontSize = 15,
                             MinValue = 0,
                             IsMerged = false,
                             Separator = new Separator
                             {
-      //                          Step = 1.5,
                                 StrokeThickness = 1.5,
-                                StrokeDashArray = new System.Windows.Media.DoubleCollection(4),
-                                Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(64, 79, 86))
+                                StrokeDashArray = new DoubleCollection(4),
+                                Stroke = new SolidColorBrush(Color.FromRgb(64, 79, 86))
                             }
 
                         };
@@ -123,9 +122,9 @@ namespace Generator_PDF.GenerateChart
                             Separator = new Separator
                             {
 
-                         //       StrokeThickness = 1.5,
-                                StrokeDashArray = new System.Windows.Media.DoubleCollection(4),
-                                Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(64, 79, 86))
+
+                                StrokeDashArray = new DoubleCollection(4),
+                                Stroke = new SolidColorBrush(Color.FromRgb(64, 79, 86))
                             }
 
 
@@ -153,12 +152,12 @@ namespace Generator_PDF.GenerateChart
             {
                 chart.LegendLocation = LegendLocation.Right;
             }
-            chart.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255));
+            chart.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             chart.FontSize = 20;
             chart.ChartLegend.FontSize = 15;
 
             chart.FontFamily = new FontFamily("Segoe UI Black");
-            chart.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+            chart.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
 
         }
 
@@ -187,7 +186,7 @@ namespace Generator_PDF.GenerateChart
             var bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
             bitmap.Render(visual);
             var frame = BitmapFrame.Create(bitmap);
-            encoder.Frames.Add(frame);         
+            encoder.Frames.Add(frame);
             using (var stream = new MemoryStream())
             {
                 encoder.Save(stream);
@@ -231,9 +230,9 @@ namespace Generator_PDF.GenerateChart
             return idParkings;
         }
 
-            public List<IdParking> SortByCount(List<IdParking> idParkings)
+        public List<IdParking> SortByCount(List<IdParking> idParkings)
         {
-          
+
             int counter = 1;
             while (idParkings.Count != 48)
             {

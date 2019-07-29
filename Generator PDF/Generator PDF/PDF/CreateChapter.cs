@@ -12,31 +12,29 @@ namespace Generator_PDF.PDF
     class CreateChapter : IChapterAndSectionMethod
     {
         public Chapter chapter;
-       public CreateSection createSection;
+        public CreateSection createSection;
         public CreateSubSection createSubSection;
-      
+
 
         public CreateChapter(Paragraph title, int chapterNumber)
         {
             title.Font.Size = 13;
-            //       title.Alignment = Element.ALIGN_CENTER ;
             title.SpacingBefore = 4f;
             title.SpacingAfter = 8f;
             chapter = new Chapter(title, chapterNumber);
-           
+
             chapter.IndentationLeft = 20f;
         }
         public CreateChapter(Paragraph title, int chapterNumber, float spacingAfter)
         {
             title.Font.Size = 13;
-            //       title.Alignment = Element.ALIGN_CENTER ;
             title.SpacingBefore = 4f;
             title.SpacingAfter = spacingAfter;
             chapter = new Chapter(title, chapterNumber);
 
             chapter.IndentationLeft = 20f;
         }
-            public void AddImage(iTextSharp.text.Image image)
+        public void AddImage(iTextSharp.text.Image image)
         {
             image.Alignment = Element.ALIGN_LEFT;
             image.SpacingBefore = 50;
@@ -64,7 +62,7 @@ namespace Generator_PDF.PDF
         public void AddText(Paragraph text)
         {
 
-            //   paragraph.Alignment = Element.ALIGN_CENTER;
+
             text.SetLeading(1.0f, 4.0f);
             chapter.Add(text);
         }
@@ -73,7 +71,7 @@ namespace Generator_PDF.PDF
 
             text.Alignment = Element.ALIGN_LEFT;
             text.SetLeading(1.0f, 4.0f);
-            text.IndentationLeft = ((540/imageWidth) * 80)*2;
+            text.IndentationLeft = ((540 / imageWidth) * 80) * 2;
             chapter.Add(text);
         }
         public void AddTable(PdfPTable table)
@@ -81,29 +79,23 @@ namespace Generator_PDF.PDF
             table.SpacingBefore = 10f;
             table.SpacingAfter = 12.5f;
             table.HorizontalAlignment = Element.ALIGN_LEFT;
-
-     //          table.WidthPercentage = 40f;
             Paragraph paragraph = new Paragraph();
-
-            //         paragraph.SetLeading(1.0f, 4.0f);
-            //     paragraph.Alignment = Element.ALIGN_CENTER;
             paragraph.Add(table);
-    //        paragraph.SpacingBefore=2f;
             chapter.Add(paragraph);
         }
         public void AddSection(Paragraph sectionTitle, int numberDepth)
         {
-             createSection = new CreateSection(chapter, sectionTitle, numberDepth);
+            createSection = new CreateSection(chapter, sectionTitle, numberDepth);
         }
 
         public void AddSubSection(Paragraph sectionTitle, int numberDepth)
         {
             createSubSection = new CreateSubSection(createSection.section, sectionTitle, numberDepth);
         }
-      
+
 
         public Chapter GetChapter()
-        {            
+        {
             return chapter;
         }
         public Section GetSection()

@@ -13,11 +13,11 @@ namespace Generator_PDF.GenerateChart
     class LineChart : AbstractChart
     {
         private List<List<IdParking>> listListCarParks;
-     
-      
+
+
         public LineChart(List<List<IdParking>> listListCarParks, string tag)
         {
-          
+
             chart = new CartesianChart();
             string nameOfParking = null;
             foreach (var item in listListCarParks)
@@ -31,9 +31,9 @@ namespace Generator_PDF.GenerateChart
                     //brak elementów
                 }
             }
-            chart.Tag = $"{tag} {nameOfParking}";           
+            chart.Tag = $"{tag} {nameOfParking}";
             this.listListCarParks = listListCarParks;
-     
+
         }
 
         public override Axis SetAxisX(Format format)
@@ -41,10 +41,6 @@ namespace Generator_PDF.GenerateChart
             Axis axisX = base.SetAxisX(Format.Percent);
             axisX.Separator.Step = 2;
             axisX.Labels = new List<string>();
-            //foreach (var item in listListCarParks)
-            //{
-            //    axisX.Labels.Add(item[0].hours.ToString());
-            //}
             return axisX;
         }
         public override Axis SetAxisY(Format format)
@@ -58,18 +54,17 @@ namespace Generator_PDF.GenerateChart
         {
             SeriesCollection seriesCollection = new SeriesCollection();
             ColumnSeries columnSeries = new ColumnSeries();
-            //        chart.AxisX.Add(SetAxisX());
 
             foreach (var item in listListCarParks)
             {
-              var helpful=  FillMissHours(item);
-                  var help  = SortByCount(helpful.OrderBy(x => x.count).ToList());
+                var helpful = FillMissHours(item);
+                var help = SortByCount(helpful.OrderBy(x => x.count).ToList());
                 ChartValues<double> chartValues = new ChartValues<double>();
 
                 foreach (var hour in help)
                 {
                     chartValues.Add(hour.count);
-                }               
+                }
 
                 seriesCollection.Add(new LineSeries
                 {
@@ -85,7 +80,7 @@ namespace Generator_PDF.GenerateChart
 
             return seriesCollection;
         }
-      
+
 
 
     }

@@ -95,12 +95,12 @@ namespace Generator_PDF.VM
 
         }
 
-    
+
         private void PdfGenerate()
         {
-            MessageBox.Show("Proces może potrwać pare minut!");
+
             counteOfChartr = 0;
-            threadsList = new List<Thread>();         
+            threadsList = new List<Thread>();
             images = new Dictionary<object, System.Drawing.Image>();
             parkings = new Dictionary<int, List<List<IdParking>>>();
             PDfTableDictionary = new Dictionary<object, List<PdfPTable>>();
@@ -127,11 +127,10 @@ namespace Generator_PDF.VM
             thread.IsBackground = true;
             thread.Start();
 
-
+            MessageBox.Show("Proces może potrwać pare minut!");
 
             foreach (var item in operationsListBox)
             {
-
                 if (item.operation == "Ilość pojazdów")
                 {
                     Task.Run(async () =>
@@ -143,32 +142,25 @@ namespace Generator_PDF.VM
 
                 if (item.operation == "Ilość wzbudzeń")
                 {
-                                           Task.Run(async () =>
+                    Task.Run(async () =>
                     {
                         threadsList.Add(new Thread(ChartSelect.TheSumOfVehiclesInMonth) { Name = "2" });
                         await connectionSql.numberVehicleGroupBy(idParkings, GroupBy.MONTH, 2);
                     }).Wait();
-                    }
-                 
-            
+                }
+
+
 
                 if (item.operation == "Ilość wzbudzeń procentowe")
                 {
-                    try
+                    Task.Run(async () =>
                     {
-                        Task.Run(async () =>
-                        {
 
-                            threadsList.Add(new Thread(ChartSelect.TheSumOfVehiclesInMonthPercent) { Name = "3" });
-                            await connectionSql.numberVehicleGroupBy(idParkings, GroupBy.MONTH, 3);
-                        }).Wait();
-                    }
-                    catch(MySql.Data.MySqlClient.MySqlException e)
-                    {
-                        MessageBox.Show(e.ToString());
-                    }
+                        threadsList.Add(new Thread(ChartSelect.TheSumOfVehiclesInMonthPercent) { Name = "3" });
+                        await connectionSql.numberVehicleGroupBy(idParkings, GroupBy.MONTH, 3);
+                    }).Wait();
                 }
-                if(item.operation == "Ilośd wzbudzeń na parkingu w danym miesiącu")
+                if (item.operation == "Ilośd wzbudzeń na parkingu w danym miesiącu")
                 {
                     Task.Run(async () =>
                     {
@@ -201,25 +193,10 @@ namespace Generator_PDF.VM
                     {
                         threadsList.Add(new Thread(ChartSelect.HourlySummaryForEachParkingByMonth) { Name = "7" });
                         await connectionSql.numberVehicleGroupByInEachHoursOfMonth(idParkings, 7);
-                                     }).Wait();
-
+                    }).Wait();
                 }
-
-
             }
-  
         }
-        public void AboirtThread()
-        {
-     //      foreach (var item in threadsList)
-   //         {
-       //         if (item.ThreadState == ThreadState.Stopped)
-         //       {
-           //         item.Abort();
-             //   }
-            //}
-        }
-
         public static void StartTask(Thread thread)
         {
             thread.SetApartmentState(ApartmentState.STA);
@@ -230,32 +207,19 @@ namespace Generator_PDF.VM
 
         public static void OnAddListParkings(int key, List<List<IdParking>> idParkings, ListIdParking imageArgs)
         {
-
             parkings.Add(key, idParkings);
             StartTask(threadsList.Find(x => x.Name == $"{key}"));
-
-
-
-
         }
 
         public static void OnAddCurrentImage(System.Drawing.Image image, AbstractChart chart, ImageArgs imageArgs)
         {
-            try
-            {
-                images.Add(chart, image);
-            }
-            catch
-            {
-
-            }
+            images.Add(chart, image);
         }
 
         public static void OnAddCurrentCarParksObservableCollection(ObservableCollection<IdParking> CarParkss, CarParksArgs carParksArgs)
         {
             idParkings = CarParkss.ToList();
             ShowWindow();
-
         }
         public void GetIdParking()
         {
@@ -263,15 +227,12 @@ namespace Generator_PDF.VM
             numberOfCarPark.CarParksChoice.possiblyParkingListBox = new ObservableCollection<IdParking>();
             numberOfCarPark.CarParksChoice.possiblyParkingListBox = connectionSql.GetCarParks();
             numberOfCarPark.Show();
-
         }
 
 
 
         public void RemoveOperation()
         {
-
-
             if (RemoveOperationListBox() != null)
                 operationsListBox.Remove(RemoveOperationListBox());
         }
@@ -279,20 +240,21 @@ namespace Generator_PDF.VM
         public void AddOperation()
         {
             if (SelectedOperationListBox() != null)
-                operationsListBox.Add(SelectedOperationListBox());
-
+            {
+                if (!operationsListBox.Any(x => x.operation == SelectedOperationListBox().operation))
+                    operationsListBox.Add(SelectedOperationListBox());
+                else
+                    MessageBox.Show("Element widnieje na liście!");
+            }
         }
 
         public void WaitForAllChart()
         {
             while (operationsListBox.Count != counteOfChartr)
             {
-                AboirtThread();
+
             }
-          
             CreatePDF.GeneratePDF(images, PDfTableDictionary);
         }
-
-
     }
 }
