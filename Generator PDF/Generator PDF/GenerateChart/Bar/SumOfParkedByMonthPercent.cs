@@ -13,8 +13,7 @@ namespace Generator_PDF.GenerateChart
     class SumOfParkedByMonthPercent : AbstractChart, ITable
     {
         List<List<IdParking>> listListCarPark;
-        public List<PdfPTable> pdfTablelist;
-        PdfPTable pdfTable;
+        public List<PdfPTable> pdfTablelist;      
         List<IdParking> idParkings;
         List<IdParking> sortedByHours;
 
@@ -24,7 +23,12 @@ namespace Generator_PDF.GenerateChart
             sortedByHours = new List<IdParking>();
             pdfTablelist = new List<PdfPTable>();
             chart = new CartesianChart();
-            chart.Tag = key.ToString();
+            string nameOfParking = null;
+            foreach (var item in listListCarPark)
+            {
+                nameOfParking += $",{item[0].name}";
+            }
+            chart.Tag = $"{key}, Wartość procentowa {nameOfParking}";
             this.listListCarPark = listListCarPark;
 
         }
@@ -46,7 +50,13 @@ namespace Generator_PDF.GenerateChart
 
         public override Axis SetAxisY(Format format)
         {
+            
             Axis axisY = base.SetAxisY(Format.Percent);
+            if(listListCarPark[0].Count==1)
+            {
+                axisY.MinValue = 0;
+                axisY.Separator = new Separator() { Step = 25 };
+            }
             return axisY;
         }
 

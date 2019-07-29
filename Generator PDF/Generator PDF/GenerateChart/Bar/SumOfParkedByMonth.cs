@@ -12,8 +12,7 @@ namespace Generator_PDF.GenerateChart
     class SumOfParkedByMonth : AbstractChart, ITable
     {
         List<List<IdParking>> listListCarPark;
-        public List<PdfPTable> pdfTablelist;
-        PdfPTable pdfTable;
+        public List<PdfPTable> pdfTablelist;      
         List<IdParking> idParkings;
        
         public SumOfParkedByMonth(List<List<IdParking>> listListCarPark, int key)
@@ -21,7 +20,12 @@ namespace Generator_PDF.GenerateChart
            
             pdfTablelist = new List<PdfPTable>();
             chart = new CartesianChart();
-            chart.Tag = key.ToString();
+            string nameOfParking = null;
+            foreach (var item in listListCarPark)
+            {
+                nameOfParking += $",{item[0].name}";
+            }
+            chart.Tag = $"{key}, Wartość liczbowa, {nameOfParking}";
             this.listListCarPark = listListCarPark;
 
         }

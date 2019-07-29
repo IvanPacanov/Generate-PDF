@@ -13,9 +13,9 @@ namespace Generator_PDF.PDF
     {       
          void AddImage(iTextSharp.text.Image image);
 
-         void AddText(string text);
+         void AddText(Paragraph text);
 
-         void AddTitleCHart(string text);
+         void AddTitleCHart(Paragraph text, float widthImage);
 
          void AddTable(PdfPTable table);
       

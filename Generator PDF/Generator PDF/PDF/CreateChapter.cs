@@ -13,48 +13,95 @@ namespace Generator_PDF.PDF
     {
         public Chapter chapter;
        public CreateSection createSection;
-        
-        public CreateChapter(string title, int chapterNumber)
+        public CreateSubSection createSubSection;
+      
+
+        public CreateChapter(Paragraph title, int chapterNumber)
         {
-            Paragraph paragraph = new Paragraph(title, FontFactory.GetFont("Arial", 15f, new BaseColor(Color.Blue))) { Alignment = Element.ALIGN_CENTER };
-            paragraph.SetLeading(4.0f, 4.0f);
-            chapter = new Chapter(paragraph, chapterNumber);
+            title.Font.Size = 13;
+            //       title.Alignment = Element.ALIGN_CENTER ;
+            title.SpacingBefore = 4f;
+            title.SpacingAfter = 8f;
+            chapter = new Chapter(title, chapterNumber);
+           
+            chapter.IndentationLeft = 20f;
         }
-        public void AddImage(iTextSharp.text.Image image)
+        public CreateChapter(Paragraph title, int chapterNumber, float spacingAfter)
         {
-            image.Alignment = Element.ALIGN_CENTER;
+            title.Font.Size = 13;
+            //       title.Alignment = Element.ALIGN_CENTER ;
+            title.SpacingBefore = 4f;
+            title.SpacingAfter = spacingAfter;
+            chapter = new Chapter(title, chapterNumber);
+
+            chapter.IndentationLeft = 20f;
+        }
+            public void AddImage(iTextSharp.text.Image image)
+        {
+            image.Alignment = Element.ALIGN_LEFT;
+            image.SpacingBefore = 50;
             chapter.Add(image);
         }
-        public void AddText(string text)
+        public void AddImageToLineChart(iTextSharp.text.Image image)
         {
-            Paragraph paragraph = new Paragraph(text, FontFactory.GetFont("Arial", 15f, new BaseColor(Color.Blue)));
-        //   paragraph.Alignment = Element.ALIGN_CENTER;
-            paragraph.SetLeading(1.0f, 4.0f);
-            chapter.Add(paragraph);
+            image.Alignment = Element.ALIGN_LEFT;
+            image.SpacingBefore = 50;
+            chapter.Add(image);
         }
-        public void AddTitleCHart(string text)
+        public void AddTitleCHartToLineChart(Paragraph text, float imageWidth)
         {
-            Paragraph paragraph = new Paragraph(text, FontFactory.GetFont("Arial", 15f, new BaseColor(Color.Blue)));
-            paragraph.Alignment = Element.ALIGN_CENTER;
-            paragraph.SetLeading(1.0f, 4.0f);
-            chapter.Add(paragraph);
+
+            text.Alignment = Element.ALIGN_LEFT;
+            text.SpacingBefore = 100;
+            text.SetLeading(1.0f, 4.0f);
+            text.IndentationLeft = ((540 / imageWidth) * 80) * 2;
+            chapter.Add(text);
+        }
+        public void AddToTableOfContents(Paragraph text)
+        {
+            chapter.Add(text);
+        }
+        public void AddText(Paragraph text)
+        {
+
+            //   paragraph.Alignment = Element.ALIGN_CENTER;
+            text.SetLeading(1.0f, 4.0f);
+            chapter.Add(text);
+        }
+        public void AddTitleCHart(Paragraph text, float imageWidth)
+        {
+
+            text.Alignment = Element.ALIGN_LEFT;
+            text.SetLeading(1.0f, 4.0f);
+            text.IndentationLeft = ((540/imageWidth) * 80)*2;
+            chapter.Add(text);
         }
         public void AddTable(PdfPTable table)
         {
             table.SpacingBefore = 10f;
             table.SpacingAfter = 12.5f;
-            table.HorizontalAlignment = Element.ALIGN_CENTER;
+            table.HorizontalAlignment = Element.ALIGN_LEFT;
+
+     //          table.WidthPercentage = 40f;
             Paragraph paragraph = new Paragraph();
-            paragraph.SetLeading(1.0f, 3.0f);
-            paragraph.Alignment = Element.ALIGN_CENTER;
+
+            //         paragraph.SetLeading(1.0f, 4.0f);
+            //     paragraph.Alignment = Element.ALIGN_CENTER;
             paragraph.Add(table);
-            paragraph.SetLeading(1.0f, 3.0f);
+    //        paragraph.SpacingBefore=2f;
             chapter.Add(paragraph);
         }
-        public void AddSection(string sectionTitle)
+        public void AddSection(Paragraph sectionTitle, int numberDepth)
         {
-             createSection = new CreateSection(chapter, sectionTitle);
+             createSection = new CreateSection(chapter, sectionTitle, numberDepth);
         }
+
+        public void AddSubSection(Paragraph sectionTitle, int numberDepth)
+        {
+            createSubSection = new CreateSubSection(createSection.section, sectionTitle, numberDepth);
+        }
+      
+
         public Chapter GetChapter()
         {            
             return chapter;
@@ -62,6 +109,10 @@ namespace Generator_PDF.PDF
         public Section GetSection()
         {
             return createSection.section;
+        }
+        public Section GetSubSection()
+        {
+            return createSubSection.subSection;
         }
 
 

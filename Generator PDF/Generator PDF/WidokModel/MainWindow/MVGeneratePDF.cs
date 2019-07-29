@@ -98,6 +98,7 @@ namespace Generator_PDF.VM
     
         private void PdfGenerate()
         {
+            MessageBox.Show("Proces może potrwać pare minut!");
             counteOfChartr = 0;
             threadsList = new List<Thread>();         
             images = new Dictionary<object, System.Drawing.Image>();

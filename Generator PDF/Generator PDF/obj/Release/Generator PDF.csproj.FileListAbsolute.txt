@@ -1,0 +1,7 @@
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Release\Generator PDF.csprojAssemblyReference.cache
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Release\Widok\LogIn.g.cs
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Release\Widok\GeneratePDF.g.cs
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Release\Widok\NumberOfCarPark.g.cs
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Release\App.g.cs
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Release\Generator PDF_MarkupCompile.cache
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Release\Generator PDF_MarkupCompile.lref

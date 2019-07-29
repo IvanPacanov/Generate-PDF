@@ -50,13 +50,17 @@
               "target": "Package",
               "version": "[7.1.0.431, )"
             },
+            "Spire.PDF": {
+              "target": "Package",
+              "version": "[5.7.0, )"
+            },
             "WPFToolkit.DataVisualization": {
               "target": "Package",
               "version": "[3.5.50211.1, )"
             },
             "iTextSharp": {
               "target": "Package",
-              "version": "[5.5.13, )"
+              "version": "[5.5.13.1, )"
             }
           }
         }

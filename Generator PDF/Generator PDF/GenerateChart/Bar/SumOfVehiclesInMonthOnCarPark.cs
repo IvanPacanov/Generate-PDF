@@ -12,15 +12,27 @@ namespace Generator_PDF.GenerateChart
     {
         List<IdParking> listCarParks;
         public List<PdfPTable> pdfTablelist;
-        PdfPTable pdfTable;
+       
         public SumOfVehiclesInMonthOnCarPark(List<IdParking> listCarParks, int key)
         {
             pdfTablelist = new List<PdfPTable>();                  
             chart = new CartesianChart();
-            chart.Tag = key.ToString();       
+            chart.Tag = $"{key}, Wartość liczbowa,{listCarParks[0].name}";
             this.listCarParks = listCarParks.OrderBy(x => x.year).ThenBy(x => x.month).ToList();
             FillMissingMonth();
         
+        }
+
+        public override Axis SetAxisX(Format format)
+        {
+            Axis axisX = base.SetAxisX(Format.Normal);
+
+          
+                axisX.Labels = new List<string>();
+                axisX.Labels.Add("");
+       
+
+            return axisX;
         }
 
         public override SeriesCollection GeneerateSeries()
@@ -56,25 +68,32 @@ namespace Generator_PDF.GenerateChart
             //uwzglednić lata !!!, 
             while (listCarParks.Count != numberOfMonths + 1)
             {
-         
 
-                if (MVGeneratePDF.availableFrom.Value.Month != listCarParks[0].month || counter == 0 && MVGeneratePDF.availableFrom.Value.Year != listCarParks[0].year)
+                try
                 {
-                    listCarParks.Insert(counter, new IdParking() { month = MVGeneratePDF.availableFrom.Value.Month, count = 0, year = MVGeneratePDF.availableFrom.Value.Year, name= listCarParks[0].name });
+                    if (MVGeneratePDF.availableFrom.Value.Month != listCarParks[0].month || counter == 0 && MVGeneratePDF.availableFrom.Value.Year != listCarParks[0].year)
+                    {
+                        listCarParks.Insert(counter, new IdParking() { month = MVGeneratePDF.availableFrom.Value.Month, count = 0, year = MVGeneratePDF.availableFrom.Value.Year, name = listCarParks[0].name });
 
+                    }
+                    else if (listCarParks[counter].month != listCarParks[counter + 1].month - 1 && listCarParks[counter].month != 12)
+                    {
+                        listCarParks.Insert(counter + 1, new IdParking() { month = listCarParks[counter].month + 1, count = 0, year = listCarParks[counter].year, name = listCarParks[0].name });
+                        counter++;
+                    }
+                    else if (listCarParks[counter].month - 11 != listCarParks[counter + 1].month && listCarParks[counter].month == 12)
+                    {
+                        listCarParks.Insert(counter + 1, new IdParking() { month = 1, count = 0, year = listCarParks[counter].year + 1, name = listCarParks[0].name });
+                        counter++;
+                    }
+                    else
+                    {
+                        counter++;
+                    }
                 }
-                else if (listCarParks[counter].month != listCarParks[counter + 1].month - 1 && listCarParks[counter].month != 12)
+                catch
                 {
                     listCarParks.Insert(counter + 1, new IdParking() { month = listCarParks[counter].month + 1, count = 0, year = listCarParks[counter].year, name = listCarParks[0].name });
-                    counter++;
-                }
-                else if (listCarParks[counter].month - 11 != listCarParks[counter + 1].month && listCarParks[counter].month == 12)
-                {
-                    listCarParks.Insert(counter + 1, new IdParking() { month = 1, count = 0, year = listCarParks[counter].year + 1, name = listCarParks[0].name });
-                    counter++;
-                }
-                else
-                {
                     counter++;
                 }
 

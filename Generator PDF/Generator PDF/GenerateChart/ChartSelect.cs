@@ -16,17 +16,7 @@ namespace Generator_PDF.GenerateChart
             string name = null;
             double key = 7;
 
-            foreach (var item in MVGeneratePDF.parkings[7])
-            {
-                if (CreatePDF.minMont > item.Min(x => x.month))
-                {
-                    CreatePDF.minMont = item.Min(x => x.month);
-                }
-                if (CreatePDF.maxMont < item.Max(x => x.month))
-                {
-                    CreatePDF.maxMont = item.Max(x => x.month);
-                }
-            }
+          
        
 
             foreach (var parking in MVGeneratePDF.parkings[7])
@@ -83,7 +73,7 @@ namespace Generator_PDF.GenerateChart
             LineChart z = new LineChart(MVGeneratePDF.parkings[5],"5");
             ChangeToPercent(MVGeneratePDF.parkings[5]);
             z.GeneerateChart();
-            MVGeneratePDF.PDfTableDictionary.Add(z, z.pdfTablelist);
+            MVGeneratePDF.PDfTableDictionary.Add(z, new List<PdfPTable>());
             MVGeneratePDF.counteOfChartr++;
         }
   

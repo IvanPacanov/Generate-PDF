@@ -19,12 +19,10 @@ namespace Generator_PDF.GenerateChart
         {
             pdfTablelist = new List<PdfPTable>();
             chart = new CartesianChart();
-            chart.Tag = key.ToString();
+            chart.Tag = $"{key}, Wartość procentowa,{listCarParks[0].name}";
             chart.HideLegend();
             this.listCarParks = listCarParks;
-            //var aaa = listCarParks.OrderBy(x => x.year).ThenBy(y => y.month);
-            //listCarParks = aaa.ToList();
-            FillMissingMonth();
+             FillMissingMonth();
 
         }
 

@@ -17,12 +17,12 @@ namespace Generator_PDF.GenerateChart
         List<IdParking> sortedByHours;
 
 
-        public LineSumByHourEachMonth(List<IdParking> listCarParks, string tag)
+        public LineSumByHourEachMonth(List<IdParking> listCarParks, string key)
         {
             sortedByHours = new List<IdParking>();
             chart = new CartesianChart();
-            chart.Tag = tag;
-            this.listCarParks = listCarParks;
+            chart.Tag = $"{key}, {listCarParks[0].name}, {listCarParks[0].month}";         
+            this.listCarParks = FillMissHours(listCarParks);
             GenerateTable();
         }
 

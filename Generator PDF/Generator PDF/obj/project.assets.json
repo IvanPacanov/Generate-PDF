@@ -60,7 +60,7 @@
           }
         }
       },
-      "iTextSharp/5.5.13": {
+      "iTextSharp/5.5.13.1": {
         "type": "package",
         "compile": {
           "lib/itextsharp.dll": {}
@@ -136,6 +136,17 @@
         "runtime": {
           "lib/net45/Prism.Wpf.dll": {},
           "lib/net45/System.Windows.Interactivity.dll": {}
+        }
+      },
+      "Spire.PDF/5.7.0": {
+        "type": "package",
+        "compile": {
+          "lib/net46/Spire.License.dll": {},
+          "lib/net46/Spire.Pdf.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Spire.License.dll": {},
+          "lib/net46/Spire.Pdf.dll": {}
         }
       },
       "WPFToolkit/3.5.50211.1": {
@@ -223,7 +234,7 @@
           }
         }
       },
-      "iTextSharp/5.5.13": {
+      "iTextSharp/5.5.13.1": {
         "type": "package",
         "compile": {
           "lib/itextsharp.dll": {}
@@ -299,6 +310,17 @@
         "runtime": {
           "lib/net45/Prism.Wpf.dll": {},
           "lib/net45/System.Windows.Interactivity.dll": {}
+        }
+      },
+      "Spire.PDF/5.7.0": {
+        "type": "package",
+        "compile": {
+          "lib/net46/Spire.License.dll": {},
+          "lib/net46/Spire.Pdf.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Spire.License.dll": {},
+          "lib/net46/Spire.Pdf.dll": {}
         }
       },
       "WPFToolkit/3.5.50211.1": {
@@ -386,7 +408,7 @@
           }
         }
       },
-      "iTextSharp/5.5.13": {
+      "iTextSharp/5.5.13.1": {
         "type": "package",
         "compile": {
           "lib/itextsharp.dll": {}
@@ -462,6 +484,17 @@
         "runtime": {
           "lib/net45/Prism.Wpf.dll": {},
           "lib/net45/System.Windows.Interactivity.dll": {}
+        }
+      },
+      "Spire.PDF/5.7.0": {
+        "type": "package",
+        "compile": {
+          "lib/net46/Spire.License.dll": {},
+          "lib/net46/Spire.Pdf.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Spire.License.dll": {},
+          "lib/net46/Spire.Pdf.dll": {}
         }
       },
       "WPFToolkit/3.5.50211.1": {
@@ -549,7 +582,7 @@
           }
         }
       },
-      "iTextSharp/5.5.13": {
+      "iTextSharp/5.5.13.1": {
         "type": "package",
         "compile": {
           "lib/itextsharp.dll": {}
@@ -627,6 +660,17 @@
           "lib/net45/System.Windows.Interactivity.dll": {}
         }
       },
+      "Spire.PDF/5.7.0": {
+        "type": "package",
+        "compile": {
+          "lib/net46/Spire.License.dll": {},
+          "lib/net46/Spire.Pdf.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Spire.License.dll": {},
+          "lib/net46/Spire.Pdf.dll": {}
+        }
+      },
       "WPFToolkit/3.5.50211.1": {
         "type": "package",
         "compile": {
@@ -702,15 +746,16 @@
         "tools/install.ps1"
       ]
     },
-    "iTextSharp/5.5.13": {
-      "sha512": "MigtmZrqjrJ4QERhgNZc+zhl+XSNV5y3JoH5nNxzdNjPvZJgzYN2qLRQhqtWsF9F/1H28SnOkoS6uIlSduSrXQ==",
+    "iTextSharp/5.5.13.1": {
+      "sha512": "xqzsYEYW/nMDjCtAXM5cl9fWil/Ju3HEGbsmoTKtltJc3M/9HNJzg++bCIOHm5uZITvRmZJWMO+S2u1yNG0gQg==",
       "type": "package",
-      "path": "itextsharp/5.5.13",
+      "path": "itextsharp/5.5.13.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "AGPL.txt",
-        "itextsharp.5.5.13.nupkg.sha512",
+        "LICENSE.md",
+        "gnu-agpl-v3.0.md",
+        "itextsharp.5.5.13.1.nupkg.sha512",
         "itextsharp.nuspec",
         "lib/iTextSharp.xml",
         "lib/itextsharp.dll",
@@ -961,6 +1006,38 @@
         "prism.wpf.nuspec"
       ]
     },
+    "Spire.PDF/5.7.0": {
+      "sha512": "T0zrOfXo1ed4QRASO5995j31pxtDBDpMMynZfaFoklB3hRthB8JN1rv/QMMh2Y7+ERWM7UTs/JuUMaBKIiMGag==",
+      "type": "package",
+      "path": "spire.pdf/5.7.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net20/Spire.License.dll",
+        "lib/net20/Spire.License.xml",
+        "lib/net20/Spire.Pdf.XML",
+        "lib/net20/Spire.Pdf.dll",
+        "lib/net40-client/Spire.License.dll",
+        "lib/net40-client/Spire.License.xml",
+        "lib/net40-client/Spire.Pdf.XML",
+        "lib/net40-client/Spire.Pdf.dll",
+        "lib/net40/Spire.License.dll",
+        "lib/net40/Spire.License.xml",
+        "lib/net40/Spire.Pdf.XML",
+        "lib/net40/Spire.Pdf.dll",
+        "lib/net46/Spire.License.dll",
+        "lib/net46/Spire.License.xml",
+        "lib/net46/Spire.Pdf.dll",
+        "lib/net46/Spire.Pdf.xml",
+        "lib/netcoreapp2.0/Spire.License.dll",
+        "lib/netcoreapp2.0/Spire.License.xml",
+        "lib/netcoreapp2.0/Spire.Pdf.dll",
+        "lib/netcoreapp2.0/Spire.Pdf.xml",
+        "license.txt",
+        "spire.pdf.5.7.0.nupkg.sha512",
+        "spire.pdf.nuspec"
+      ]
+    },
     "WPFToolkit/3.5.50211.1": {
       "sha512": "GBUDJtyv6WH6KKOQdeCpUGN1B1v3IpediEAmKQN9mu+oYhZvw21U6adfwCA087Z9bDMJwHPj18vZUXdTFfuqYA==",
       "type": "package",
@@ -994,8 +1071,9 @@
       "LiveCharts.Wpf >= 0.9.7",
       "MaterialDesignThemes >= 2.5.1",
       "Prism.Wpf >= 7.1.0.431",
+      "Spire.PDF >= 5.7.0",
       "WPFToolkit.DataVisualization >= 3.5.50211.1",
-      "iTextSharp >= 5.5.13"
+      "iTextSharp >= 5.5.13.1"
     ]
   },
   "packageFolders": {
@@ -1047,13 +1125,17 @@
             "target": "Package",
             "version": "[7.1.0.431, )"
           },
+          "Spire.PDF": {
+            "target": "Package",
+            "version": "[5.7.0, )"
+          },
           "WPFToolkit.DataVisualization": {
             "target": "Package",
             "version": "[3.5.50211.1, )"
           },
           "iTextSharp": {
             "target": "Package",
-            "version": "[5.5.13, )"
+            "version": "[5.5.13.1, )"
           }
         }
       }

@@ -16,11 +16,11 @@ namespace Generator_PDF.GenerateChart
         public List<PdfPTable> pdfTablelist;
         List<IdParking> sortedByHours;
 
-        public LineSumByHour(List<IdParking> listCarParks, string tag)
+        public LineSumByHour(List<IdParking> listCarParks, string key)
         {
             sortedByHours = new List<IdParking>();
             chart = new CartesianChart();
-            chart.Tag = tag;
+            chart.Tag = $"{key}, {listCarParks[0].name}";
             this.listCarParks = listCarParks;
             FillMissHours(listCarParks);
             GenerateTable();
@@ -43,10 +43,9 @@ namespace Generator_PDF.GenerateChart
             SeriesCollection seriesCollection = new SeriesCollection();
             ChartValues<double> chartValues = new ChartValues<double>();
 
-            var test = ChartSelect.ChangeToPercents(listCarParks);
-            listCarParks = SortByCount(listCarParks.OrderBy(x => x.count).ToList());
-            test = SortByCount(test.OrderBy(x => x.count).ToList());
-            foreach (var item in test)
+            listCarParks = SortByCount((ChartSelect.ChangeToPercents(listCarParks)).OrderBy(x=>x.count).ToList());
+      //      listCarParks = SortByCount(listCarParks.OrderBy(x => x.count).ToList());            
+            foreach (var item in listCarParks)
             {
                 chartValues.Add(item.count);
             }
@@ -63,17 +62,7 @@ namespace Generator_PDF.GenerateChart
 
             });
             return seriesCollection;
-        }
-        public void FillMissHours(List<IdParking> listCarParks)
-        {
-            for (int i = 0; i < 23; i++)
-            {
-                if(!listCarParks.Exists(x=>x.hours==i))
-                {
-                    listCarParks.Add(new IdParking() { hours = i, count = 0, name = listCarParks[0].name });
-                }
-            }
-        }
+        }     
 
         public void GenerateTable()
         {

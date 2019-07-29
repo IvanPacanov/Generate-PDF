@@ -12,38 +12,42 @@ namespace Generator_PDF.PDF
     class CreateSection : IChapterAndSectionMethod
     {
      public Section section;
-        public CreateSection(Chapter chapter, string sectionTitle)
+        public CreateSection(Chapter chapter, Paragraph title, int numberDepth)
         {
-            section = chapter.AddSection(new Paragraph(sectionTitle, FontFactory.GetFont("Arial", 15f, new BaseColor(Color.Blue))));
+            title.Font.Size = 13;
+            title.SetLeading(2.0f, 2.0f);
+            section = chapter.AddSection(20f,title, numberDepth);
+            section.IndentationLeft = 20f;
+            
         }
         public void AddImage(iTextSharp.text.Image image)
         {
-            image.Alignment = Element.ALIGN_CENTER;
+            image.Alignment = Element.ALIGN_LEFT;
+            image.SpacingBefore = 50;
             section.Add(image);
         }
-        public void AddText(string text)
+        public void AddText(Paragraph text)
         {
-            Paragraph paragraph = new Paragraph(text, FontFactory.GetFont("Arial", 15f, new BaseColor(Color.Blue)));
-         //   paragraph.Alignment = Element.ALIGN_CENTER;
-            section.Add(paragraph);
+               //   paragraph.Alignment = Element.ALIGN_CENTER;
+            section.Add(text);
         }
-        public void AddTitleCHart(string text)
+        public void AddTitleCHart(Paragraph text, float imageWidth)
         {
-            Paragraph paragraph = new Paragraph(text, FontFactory.GetFont("Arial", 15f, new BaseColor(Color.Blue)));
-            paragraph.Alignment = Element.ALIGN_CENTER;
-            paragraph.SetLeading(1.0f, 4.0f);
-            section.Add(paragraph);
+             text.Alignment = Element.ALIGN_LEFT;
+            text.SetLeading(1.0f, 4.0f);
+            text.IndentationLeft = ((540 / imageWidth) * 80)*2;
+            section.Add(text);
         }
         public void AddTable(PdfPTable table)
         {
             table.SpacingBefore = 10f;
             table.SpacingAfter = 12.5f;
-            table.HorizontalAlignment = Element.ALIGN_CENTER;
+            table.HorizontalAlignment = Element.ALIGN_LEFT;
             Paragraph paragraph = new Paragraph();
-            paragraph.SetLeading(1.0f, 3.0f);
-            paragraph.Alignment = Element.ALIGN_CENTER;
+       //     paragraph.SetLeading(1.0f, 3.0f);
+       //     paragraph.Alignment = Element.ALIGN_CENTER;
             paragraph.Add(table);
-            paragraph.SetLeading(1.0f, 3.0f);
+      //      paragraph.SetLeading(1.0f, 3.0f);
             section.Add(paragraph);
         }
         public Section GetSection()

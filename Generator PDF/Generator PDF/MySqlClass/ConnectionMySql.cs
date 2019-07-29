@@ -155,6 +155,7 @@ namespace Generator_PDF
                             isBusy = int.Parse(mySqlDataReader.GetString(4)),
                             Address = (int.Parse(mySqlDataReader.GetString(2)))
                         });
+                    
                     }
                 }
                 catch (Exception e)
@@ -248,7 +249,7 @@ namespace Generator_PDF
                     var all = newList1.GroupBy(x => new { x.YEAR, x.Month });
                     foreach (var itemq in all.ToList())
                     {
-                        idParkingss.Add(new IdParking { year = itemq.Min(x => x.YEAR), month = itemq.Min(x => x.Month), count = itemq.Sum(x => x.isBusy), idParking = item.idParking, name = item.name });
+                        idParkingss.Add(new IdParking { year = itemq.Min(x => x.YEAR), month = itemq.Min(x => x.Month), count = itemq.Sum(x => x.isBusy+1), idParking = item.idParking, name = item.name });
                     }
                 }
                 else if (groupBy == GroupBy.HOUR)
@@ -258,7 +259,7 @@ namespace Generator_PDF
 
                     foreach (var itemq in all.ToList())
                     {
-                        idParkingss.Add(new IdParking { hours = itemq.Min(x => x.Hour), count = itemq.Sum(x => x.isBusy), idParking = item.idParking, name = item.name });
+                        idParkingss.Add(new IdParking { hours = itemq.Min(x => x.Hour), count = itemq.Sum(x => x.isBusy+1), idParking = item.idParking, name = item.name });
                     }
 
                 }
@@ -277,7 +278,7 @@ namespace Generator_PDF
             {
                 try
                 {
-                    if (struckTests.ElementAt(i).isBusy != struckTests.ElementAt(i + 1).isBusy && struckTests.ElementAt(i).isBusy == 1)
+                    if (struckTests.ElementAt(i).isBusy != struckTests.ElementAt(i + 1).isBusy && struckTests.ElementAt(i).isBusy == 0)
                     {
                         Help.Add(struckTests.ElementAt(i));
                     }
@@ -350,7 +351,7 @@ namespace Generator_PDF
 
                 foreach (var itemq in all.ToList())
                 {
-                    idParkingss.Add(new IdParking { year = itemq.Min(x => x.YEAR), month = itemq.Min(x => x.Month), hours = itemq.Min(x => x.Hour), count = itemq.Sum(x => x.isBusy), idParking = item.idParking, name = item.name });
+                    idParkingss.Add(new IdParking { year = itemq.Min(x => x.YEAR), month = itemq.Min(x => x.Month), hours = itemq.Min(x => x.Hour), count = itemq.Sum(x => x.isBusy+1), idParking = item.idParking, name = item.name });
                 }
                 parkings.Add(idParkingss);
             }

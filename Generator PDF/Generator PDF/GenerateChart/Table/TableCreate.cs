@@ -12,10 +12,11 @@ namespace Generator_PDF.GenerateChart
 {
     static class TableCreate
     {
-
+        
         static public List<PdfPTable> PdfTableByNameOrMonth(List<IdParking> idParkings, FirstRow firstRow)
         {
             List<PdfPTable> pdfTablelist = new List<PdfPTable>();
+
             var help = idParkings.OrderBy(x => x.year).ThenBy(x => x.month);
             int from = 0;
             if (idParkings.Count > 6)
@@ -41,12 +42,12 @@ namespace Generator_PDF.GenerateChart
                         {
                             if (counter < from)
                             {
-                                pdfTablelist[0].AddCell(CreatePDF.FontPolish(carPark.name));
+                                pdfTablelist[0].AddCell(SetCell(carPark.name));
                                 counter++;
                             }
                             else
                             {
-                                pdfTablelist[1].AddCell(CreatePDF.FontPolish(carPark.name));
+                                pdfTablelist[1].AddCell(SetCell(carPark.name));
                             }
                         }
                         counter = 0;
@@ -54,12 +55,12 @@ namespace Generator_PDF.GenerateChart
                         {
                             if (counter < from)
                             {
-                                pdfTablelist[0].AddCell(CreatePDF.FontPolish(carPark.count.ToString()));
+                                pdfTablelist[0].AddCell(SetCell(carPark.count.ToString()));
                                 counter++;
                             }
                             else
                             {
-                                pdfTablelist[1].AddCell(CreatePDF.FontPolish(carPark.count.ToString()));
+                                pdfTablelist[1].AddCell(SetCell(carPark.count.ToString()));
                             }
                         }
 
@@ -75,12 +76,12 @@ namespace Generator_PDF.GenerateChart
 
                             if (counter < from)
                             {
-                                pdfTablelist[0].AddCell(CreatePDF.FontPolish(Enum.GetName(typeof(EnumMonth), carPark.month)));
+                                pdfTablelist[0].AddCell(SetCell(Enum.GetName(typeof(EnumMonth), carPark.month)));
                                 counter++;
                             }
                             else
                             {
-                                pdfTablelist[1].AddCell(CreatePDF.FontPolish(Enum.GetName(typeof(EnumMonth), carPark.month)));
+                                pdfTablelist[1].AddCell(SetCell(Enum.GetName(typeof(EnumMonth), carPark.month)));
                             }
                         }
                         counter = 0;
@@ -88,12 +89,12 @@ namespace Generator_PDF.GenerateChart
                         {
                             if (counter < from)
                             {
-                                pdfTablelist[0].AddCell(CreatePDF.FontPolish(carPark.count.ToString()));
+                                pdfTablelist[0].AddCell(SetCell(carPark.count.ToString()));
                                 counter++;
                             }
                             else
                             {
-                                pdfTablelist[1].AddCell(CreatePDF.FontPolish(carPark.count.ToString()));
+                                pdfTablelist[1].AddCell(SetCell(carPark.count.ToString()));
                             }
                         }
 
@@ -137,12 +138,12 @@ namespace Generator_PDF.GenerateChart
                         {
                             if (counter < from)
                             {
-                                pdfTablelist[0].AddCell(CreatePDF.FontPolish(carPark.name));
+                                pdfTablelist[0].AddCell(SetCell(carPark.name));
                                 counter++;
                             }
                             else
                             {
-                                pdfTablelist[1].AddCell(CreatePDF.FontPolish(carPark.name));
+                                pdfTablelist[1].AddCell(SetCell(carPark.name));
                             }
                         }
                         counter = 0;
@@ -150,12 +151,12 @@ namespace Generator_PDF.GenerateChart
                         {
                             if (counter < from)
                             {
-                                pdfTablelist[0].AddCell(CreatePDF.FontPolish(SetPercent(carPark.count, sum).ToString()));
+                                pdfTablelist[0].AddCell(SetCell(SetPercent(carPark.count, sum).ToString()));
                                 counter++;
                             }
                             else
                             {
-                                pdfTablelist[1].AddCell(CreatePDF.FontPolish(SetPercent(carPark.count, sum).ToString()));
+                                pdfTablelist[1].AddCell(SetCell(SetPercent(carPark.count, sum).ToString()));
                             }
                         }
 
@@ -170,12 +171,12 @@ namespace Generator_PDF.GenerateChart
 
                             if (counter < from)
                             {
-                                pdfTablelist[0].AddCell(CreatePDF.FontPolish(Enum.GetName(typeof(EnumMonth), carPark.month)));
+                                pdfTablelist[0].AddCell(SetCell(Enum.GetName(typeof(EnumMonth), carPark.month)));
                                 counter++;
                             }
                             else
                             {
-                                pdfTablelist[1].AddCell(CreatePDF.FontPolish(Enum.GetName(typeof(EnumMonth), carPark.month)));
+                                pdfTablelist[1].AddCell(SetCell(Enum.GetName(typeof(EnumMonth), carPark.month)));
                             }
                         }
                         counter = 0;
@@ -183,12 +184,12 @@ namespace Generator_PDF.GenerateChart
                         {
                             if (counter < from)
                             {
-                                pdfTablelist[0].AddCell(CreatePDF.FontPolish(SetPercent(carPark.count, sum).ToString()));
+                                pdfTablelist[0].AddCell(SetCell(SetPercent(carPark.count, sum).ToString()));
                                 counter++;
                             }
                             else
                             {
-                                pdfTablelist[1].AddCell(CreatePDF.FontPolish(SetPercent(carPark.count, sum).ToString()));
+                                pdfTablelist[1].AddCell(SetCell(SetPercent(carPark.count, sum).ToString()));
                             }
                         }
 
@@ -215,22 +216,28 @@ namespace Generator_PDF.GenerateChart
             pdfTablelist.Add(new PdfPTable(12));
             pdfTablelist.Add(new PdfPTable(12));
 
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < z.Count/2; i++)
             {
-                pdfTablelist[0].AddCell(CreatePDF.FontPolish(i.ToString()));
-                pdfTablelist[1].AddCell(CreatePDF.FontPolish((i + 12).ToString()));
-                pdfTablelist[2].AddCell(CreatePDF.FontPolish(i.ToString()));
-                pdfTablelist[3].AddCell(CreatePDF.FontPolish((i + 12).ToString()));
+                pdfTablelist[0].AddCell(SetCell(i.ToString()));
+                pdfTablelist[1].AddCell(SetCell((i + z.Count / 2).ToString()));
+                pdfTablelist[2].AddCell(SetCell(i.ToString()));
+                pdfTablelist[3].AddCell(SetCell((i + z.Count / 2).ToString()));
             }
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < z.Count / 2; i++)
             {
-                pdfTablelist[0].AddCell(CreatePDF.FontPolish(z[i].count.ToString()));
-                pdfTablelist[1].AddCell(CreatePDF.FontPolish(z[i + 12].count.ToString()));
-                pdfTablelist[2].AddCell(CreatePDF.FontPolish(SetPercent(z[i].count, sum).ToString()));
-                pdfTablelist[3].AddCell(CreatePDF.FontPolish(SetPercent(z[i + 12].count, sum).ToString()));
+                pdfTablelist[0].AddCell(SetCell(z[i].count.ToString()));
+                pdfTablelist[1].AddCell(SetCell(z[i + z.Count / 2].count.ToString()));
+                pdfTablelist[2].AddCell(SetCell(SetPercent(z[i].count, sum).ToString()));
+                pdfTablelist[3].AddCell(SetCell(SetPercent(z[i + z.Count / 2].count, sum).ToString()));
 
             }
             return pdfTablelist;
+        }
+        public static PdfPCell SetCell(string text)
+        {
+            PdfPCell pdfP = new PdfPCell() { VerticalAlignment = Element.ALIGN_CENTER, HorizontalAlignment = Element.ALIGN_CENTER};          
+            pdfP.Phrase = (CreatePDF.FontPolish(text));
+            return pdfP;
         }
 
         public static double SetPercent(double x1, double sum)

@@ -219,3 +219,5 @@ C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Widok\LogIn.baml
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Widok\GeneratePDF.baml
 C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\obj\Debug\Widok\NumberOfCarPark.baml
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\Spire.License.dll
+C:\Users\Mateusz Pacan\Desktop\GIT PDF\Generate-PDF\Generator PDF\Generator PDF\bin\Debug\Spire.Pdf.dll

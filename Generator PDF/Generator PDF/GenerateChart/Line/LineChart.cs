@@ -13,13 +13,25 @@ namespace Generator_PDF.GenerateChart
     class LineChart : AbstractChart
     {
         private List<List<IdParking>> listListCarParks;
-        public List<PdfPTable> pdfTablelist;
-        List<IdParking> sortedByHours;
+     
+      
         public LineChart(List<List<IdParking>> listListCarParks, string tag)
         {
-            sortedByHours = new List<IdParking>();
+          
             chart = new CartesianChart();
-            chart.Tag = tag;           
+            string nameOfParking = null;
+            foreach (var item in listListCarParks)
+            {
+                try
+                {
+                    nameOfParking += $",{item[0].name}";
+                }
+                catch
+                {
+                    //brak elementów
+                }
+            }
+            chart.Tag = $"{tag} {nameOfParking}";           
             this.listListCarParks = listListCarParks;
      
         }
@@ -35,6 +47,13 @@ namespace Generator_PDF.GenerateChart
             //}
             return axisX;
         }
+        public override Axis SetAxisY(Format format)
+        {
+            Axis axisY = base.SetAxisY(Format.Percent);
+            axisY.MinValue = 0;
+            return axisY;
+        }
+
         public override SeriesCollection GeneerateSeries()
         {
             SeriesCollection seriesCollection = new SeriesCollection();
@@ -43,8 +62,8 @@ namespace Generator_PDF.GenerateChart
 
             foreach (var item in listListCarParks)
             {
-                var ppp = item.OrderBy(x => x.count).ToList();
-                var help  = SortByCount(item.OrderBy(x => x.count).ToList());
+              var helpful=  FillMissHours(item);
+                  var help  = SortByCount(helpful.OrderBy(x => x.count).ToList());
                 ChartValues<double> chartValues = new ChartValues<double>();
 
                 foreach (var hour in help)

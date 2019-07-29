@@ -22,7 +22,7 @@ namespace Generator_PDF.GenerateChart
         public SumOfParked(List<List<IdParking>> listcarParks, int tag)
         {            
             chart = new CartesianChart() ;
-            chart.Tag = tag.ToString();
+            chart.Tag = $"{tag},Suma wzbudzeń parkujących (wzbudzeń) w całym okresie raportu";
             chart.Background = Brushes.Black ;           
             this.listcarParks = listcarParks[0];
         }

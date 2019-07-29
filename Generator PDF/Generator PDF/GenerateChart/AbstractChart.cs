@@ -46,7 +46,7 @@ namespace Generator_PDF.GenerateChart
                     {
                         return new Axis()
                         {
-
+                            Title = null,
                             Foreground = System.Windows.Media.Brushes.Black,
                             FontSize = 15,
                             IsMerged = false,
@@ -141,8 +141,8 @@ namespace Generator_PDF.GenerateChart
         public void SetChartParameters()
         {
             chart.DisableAnimations = true;
-            chart.Width = 720;
-            chart.Height = 360;
+            chart.Width = 576;
+            chart.Height = 288;
             chart.Series = GeneerateSeries();
 
             if (this is SumOfParkedInEachMonthPercent)
@@ -187,7 +187,7 @@ namespace Generator_PDF.GenerateChart
             var bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
             bitmap.Render(visual);
             var frame = BitmapFrame.Create(bitmap);
-            encoder.Frames.Add(frame);
+            encoder.Frames.Add(frame);         
             using (var stream = new MemoryStream())
             {
                 encoder.Save(stream);
@@ -219,15 +219,21 @@ namespace Generator_PDF.GenerateChart
                 }
             }
         }
-        public List<IdParking> SortByCount(List<IdParking> idParkings)
+        public List<IdParking> FillMissHours(List<IdParking> idParkings)
         {
             for (int i = 0; i <= 23; i++)
             {
                 if (!idParkings.Exists(x => x.hours == i))
                 {
-                    idParkings.Add(new IdParking() { hours = i, count = 0 });
+                    idParkings.Insert(0, new IdParking() { hours = i, count = 0 });
                 }
             }
+            return idParkings;
+        }
+
+            public List<IdParking> SortByCount(List<IdParking> idParkings)
+        {
+          
             int counter = 1;
             while (idParkings.Count != 48)
             {

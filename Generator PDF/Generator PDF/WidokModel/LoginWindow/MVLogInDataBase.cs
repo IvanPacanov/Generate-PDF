@@ -94,6 +94,7 @@ namespace Generator_PDF.VM
             {
                 connectionMy.TestConnect();
                 SetConnection();
+                CloseWindow();
             }
             catch
             {
